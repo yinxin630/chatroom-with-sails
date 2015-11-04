@@ -7,8 +7,22 @@
 
 module.exports = {
 
-  attributes: {
-
-  }
+    attributes: {
+        loginName: {
+            type: 'string',
+            size: 32,
+            required: true,
+        },
+        
+        nickName: {
+            type: 'string',
+            size: 128,
+        },
+        
+        password: {
+            type: 'string',
+            size: 128,
+        }
+    }
 };
 
