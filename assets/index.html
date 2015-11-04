@@ -9,9 +9,11 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="js/dependencies/sails.io.js"></script>
 <script type="text/javascript">
-io.socket.get('/user/test', function(datas){
+io.socket.post('/user?loginName=yinxin&nickName=碎碎酱&password=222', function(datas){
+	var user = JSON.parse(datas);
+	alert(user.nickName);
 })
-io.socket.on('message', function(msg){
+io.socket.post('/message?msg=哈哈哈', function(msg){
     alert(msg);
 })
 </script>

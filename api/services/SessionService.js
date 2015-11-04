@@ -1,5 +1,5 @@
 module.exports = {
-    var sessionBuffer = [],
+    sessionBuffer: [],
 
     create: function (session, loginName, password, res) {
         User.find({ loginName: loginName }).exec(function (err, record) {

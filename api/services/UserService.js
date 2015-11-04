@@ -7,7 +7,7 @@ module.exports = {
                 return res.negotiate(err);
             }
             session.user = record;
-            Session.sessionBuffer.push(session);
+            SessionService.sessionBuffer.push(session);
             return res.json(record);
         });
     },
