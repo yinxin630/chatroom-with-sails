@@ -51,6 +51,13 @@ module.exports.policies = {
     
     UserController: {
         'create': true,
+        'update': true,
+        '*': false,
+    },
+    
+    SessionController: {
+        'create': true,
+        'destroy': true,
         '*': false,
     }
     
