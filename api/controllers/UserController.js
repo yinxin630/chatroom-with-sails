@@ -6,13 +6,12 @@
  */
 
 module.exports = {
-    test: function (req, res) {
-        sails.log.info("in test");
-        if (req.isSocket) {
-            sails.sockets.emit(req.socket, 'message', '');
-            sails.log.info('send "message" to req.');
-        }
-        res.ok();
-    }
+    create: function (req, res) {
+        
+    },
+    
+    update: function (req, res) {
+        
+    },
 };
 
