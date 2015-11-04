@@ -69,7 +69,8 @@ config/local.js
 node_modules
 bower_components
 
-
+# vsc 配置文件
+.vscode
 
 
 ################################################
