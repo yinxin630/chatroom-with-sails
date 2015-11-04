@@ -7,8 +7,11 @@
 
 module.exports = {
     test: function (req, res) {
-        sails.log(req.isSocket);
-        sails.log.info("test");
+        sails.log.info("in test");
+        if (req.isSocket) {
+            sails.sockets.emit(req.socket, 'message', '');
+            sails.log.info('send "message" to req.');
+        }
         res.ok();
     }
 };

@@ -10,7 +10,9 @@
 <script type="text/javascript" src="js/dependencies/sails.io.js"></script>
 <script type="text/javascript">
 io.socket.get('/user/test', function(datas){
-    alert("get");
+})
+io.socket.on('message', function(msg){
+    alert(msg);
 })
 </script>
 </html>
