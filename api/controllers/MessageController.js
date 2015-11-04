@@ -6,6 +6,12 @@
  */
 
 module.exports = {
-	
+    create: function (req, res) {
+        
+    },
+    
+    find: function (req, res) {
+        
+    }
 };
 
