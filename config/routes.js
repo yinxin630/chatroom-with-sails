@@ -47,7 +47,5 @@ module.exports.routes = {
   ***************************************************************************/
   
   'put /user': "UserController.update",
-  '/': "AppController.index",
-  '/index.html': "AppController.index",
 
 };
