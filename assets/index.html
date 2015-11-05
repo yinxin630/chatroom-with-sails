@@ -5,9 +5,22 @@
 	<title>test</title>
 </head>
 <body>
-    <button id="connect">连接</button>
+    <h2>Hello Guest ~</h2>
+    <form id="registerForm">
+        <input type="text" name="loginName">
+        <input type="text" name="nickName">
+        <input type="password" name="password">
+        <button id="register">注册</button>
+    </form>
+    
+    <input type="text" id="msg">
     <button id="send">发送消息</button>
-    <button id="login">登录</button>
+    
+    <form id="loginForm">
+        <input type="text" name="loginName">
+        <input type="password" name="password">
+        <button id="login">登录</button>
+    </form>
 </body>
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="js/dependencies/sails.io.js"></script>
