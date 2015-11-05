@@ -12,7 +12,7 @@ module.exports = {
                 }
                 session.user = record;
                 this.sessionBuffer.push(session.id);
-                return res.ok();
+                return res.ok(record);
             });
         }
         else {

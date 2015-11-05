@@ -5,41 +5,81 @@
 	<title>test</title>
 </head>
 <body>
-    <h2>Hello Guest ~</h2>
-    <form id="registerForm">
-        <input type="text" name="loginName">
-        <input type="text" name="nickName">
-        <input type="password" name="password">
+    <h2 id="welcome">Hello Guest ~</h2>
+    <div id="registerForm">
+        用户名：<input type="text" name="loginName">
+        昵称：<input type="text" name="nickName">
+        密码：<input type="password" name="password">
         <button id="register">注册</button>
-    </form>
+    </div>
     
+    <br>
+    
+    <div id="loginForm">
+        用户名：<input type="text" name="loginName">
+        密码：<input type="password" name="password">
+        <button id="login">登录</button>
+    </div>
+    
+    <br>
+    
+    <input type="hidden" id="nickName">
     <input type="text" id="msg">
     <button id="send">发送消息</button>
     
-    <form id="loginForm">
-        <input type="text" name="loginName">
-        <input type="password" name="password">
-        <button id="login">登录</button>
-    </form>
-</body>
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="js/dependencies/sails.io.js"></script>
 <script type="text/javascript">
-$('#connect').click(function(){
-    $.post('/user', {loginName:'yinxin',nickName:'碎碎酱',password:'222'}, function(resData){
-        var user = JSON.parse(datas);
-        alert(user.nickName);
-    })
+$('#register').click(function(){
+    $.ajax({
+        url: '/user',
+        type: 'post',
+        data: {
+            loginName:$('#registerForm').find('input[name=loginName]').val(),
+            nickName:$('#registerForm').find('input[name=nickName]').val(),
+            password:$('#registerForm').find('input[name=password]').val()
+        },
+        error: function(req, err) {
+            alert(err);
+        },
+        success: function(resData) {
+            $('#welcome').text('Hello ' + resData.nickName + ' ~');
+            $('#nickName').val(resData.nickName);
+            io.socket.get('/message');
+        }
+    });
 });
 
 $('#send').click(function(){
-    $.post('/message', {msg:'哈哈哈'}, function(resData){
-        alert(resData);
-    })
+    io.socket.post('/message', {msg:$('#msg').val(),nickName:$('#nickName').val()});
 });
 
 $('#login').click(function(){
-    $.post('/session', {loginName:'yinxin',password:'222'}); 
+    $.ajax({
+        url: '/session',
+        type: 'post',
+        data: {
+            loginName:$('#loginForm').find('input[name=loginName]').val(),
+            password:$('#loginForm').find('input[name=password]').val()
+        },
+        error: function(req, err) {
+            alert(err);
+        },
+        success: function(resData) {
+            $('#welcome').text('Hello ' + resData.nickName + ' ~');
+            $('#nickName').val(resData.nickName);
+            io.socket.get('/message');
+        }
+    });
 });
+
+(function(){
+    $('#msg').width($('#msg').width() * 4);
+    io.socket.on('message', function(data){
+        $('body').append('<p>' + data.nickName + " : " + data.msg + '<p>');
+    })
+})();
+
 </script>
+</body>
 </html>

@@ -8,25 +8,28 @@
 module.exports = {
     create: function (req, res) {
         if (!req.isSocket) {
-            res.badRequest('please request this interface with socket.');
+            return res.badRequest('please request this interface with socket.');
         }
-        if (JSON.stringify(sails.sockets.socketRooms(req.socket)) != 'default') {
-            res.badRequest('you had not joined room.');
+        var room = sails.sockets.socketRooms(req.socket)['1'];
+        if (room != 'default') {
+            return res.badRequest('you had not joined room.');
         }
         var msg = req.param('msg');
-        sails.boradcast('default', 'message', { msg: msg });
-        res.ok('send message success.');
+        var nickName = req.param('nickName');
+        sails.sockets.broadcast('default', 'message', { msg: msg, nickName: nickName});
+        sails.log('message broadcast.');
+        return res.ok('send message success.');
     },
     
     find: function (req, res) {
         if (!req.isSocket) {
-            res.badRequest('please request this interface with socket');
+            return res.badRequest('please request this interface with socket');
         }
         if (JSON.stringify(sails.sockets.socketRooms(req.socket)) == 'default') {
-            res.badRequest('you had joined room');
+            return res.badRequest('you had joined room');
         }
         sails.sockets.join(req.socket, 'default');
-        res.ok('join room success.');
+        return res.ok('join room success.');
     }
 };
 
