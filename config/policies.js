@@ -56,6 +56,7 @@ module.exports.policies = {
     },
     
     SessionController: {
+        'find': true,
         'create': true,
         'destroy': true,
         '*': false,

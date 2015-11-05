@@ -16,6 +16,11 @@ module.exports = {
     destroy: function (req, res) {
         var session = req.session;
         SessionService.destroy(session, res);
+    },
+    
+    find: function (req, res) {
+        var session = req.session;
+        SessionService.find(session, res);
     }
 };
 

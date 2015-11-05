@@ -23,9 +23,17 @@ module.exports = {
     destroy: function (session, res) {
         var index = -1;
         if ((index = this.sessionBuffer.indexOf(session.id)) < 0) {
-            return res.serverError("you don't logged.");
+            return res.badRequest("you don't logged.");
         }
         this.sessionBuffer.remove(index);
         return res.ok();
+    },
+    
+    find: function (session, res) {
+        var index = -1;
+        if ((index = this.sessionBuffer.indexOf(session.id)) < 0) {
+            return res.badRequest("you don't logged.");
+        }
+        return res.ok(session.user);
     }
 }

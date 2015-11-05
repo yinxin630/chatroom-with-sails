@@ -75,9 +75,23 @@ $('#login').click(function(){
 
 (function(){
     $('#msg').width($('#msg').width() * 4);
+    
     io.socket.on('message', function(data){
         $('body').append('<p>' + data.nickName + " : " + data.msg + '<p>');
     })
+    
+    $.ajax({
+        url: '/session',
+        type: 'get',
+        error: function(req, err) {
+            // alert(err);
+        },
+        success: function(resData) {
+            $('#welcome').text('Hello ' + resData.nickName + ' ~');
+            $('#nickName').val(resData.nickName);
+            io.socket.get('/message');
+        }
+    });
 })();
 
 </script>
