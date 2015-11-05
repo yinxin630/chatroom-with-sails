@@ -1,20 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html charset=utf-8"/>
 	<title>test</title>
 </head>
 <body>
-
+    <button id="connect">连接</button>
+    <button id="send">发送消息</button>
+    <button id="login">登录</button>
 </body>
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="js/dependencies/sails.io.js"></script>
 <script type="text/javascript">
-io.socket.post('/user?loginName=yinxin&nickName=碎碎酱&password=222', function(datas){
-	var user = JSON.parse(datas);
-	alert(user.nickName);
-})
-io.socket.post('/message?msg=哈哈哈', function(msg){
-    alert(msg);
-})
+$('#connect').click(function(){
+    $.post('/user', {loginName:'yinxin',nickName:'碎碎酱',password:'222'}, function(resData){
+        var user = JSON.parse(datas);
+        alert(user.nickName);
+    })
+});
+
+$('#send').click(function(){
+    $.post('/message', {msg:'哈哈哈'}, function(resData){
+        alert(resData);
+    })
+});
+
+$('#login').click(function(){
+    $.post('/session', {loginName:'yinxin',password:'222'}); 
+});
 </script>
 </html>

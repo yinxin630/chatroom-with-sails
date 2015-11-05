@@ -6,8 +6,10 @@ module.exports = {
             if (err) {
                 return res.negotiate(err);
             }
+            sails.log(record);
             session.user = record;
-            SessionService.sessionBuffer.push(session);
+            SessionService.sessionBuffer.push(session.id);
+            sails.log(SessionService.sessionBuffer);
             return res.json(record);
         });
     },

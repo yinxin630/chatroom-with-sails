@@ -2,25 +2,30 @@ module.exports = {
     sessionBuffer: [],
 
     create: function (session, loginName, password, res) {
-        User.find({ loginName: loginName }).exec(function (err, record) {
-            if (err) {
-                return res.negotiate(err);
-            }
-            if (record.password != password) {
-                return res.badRequest("wrong password.");
-            }
-            session.user = record;
-            sessionBuffer.push(session);
-            return res.ok();
-        });
+        if (this.sessionBuffer.indexOf(session.id) < 0) {
+            User.findOne({ loginName: loginName }).exec(function (err, record) {
+                if (err) {
+                    return res.negotiate(err);
+                }
+                if (record[0].password != password) {
+                    return res.badRequest("wrong password.");
+                }
+                session.user = record;
+                this.sessionBuffer.push(session.id);
+                return res.ok();
+            });
+        }
+        else {
+            sails.log('user already logged.');
+        }
     },
 
     destroy: function (session, res) {
         var index = -1;
-        if ((index = sessionBuffer.indexOf(session)) < 0) {
+        if ((index = this.sessionBuffer.indexOf(session.id)) < 0) {
             return res.serverError("you don't logged.");
         }
-        sessionBuffer.remove(index);
+        this.sessionBuffer.remove(index);
         return res.ok();
     }
 }

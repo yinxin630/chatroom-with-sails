@@ -12,6 +12,7 @@ module.exports = {
             type: 'string',
             size: 32,
             required: true,
+            unique: true,
         },
         
         nickName: {
