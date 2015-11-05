@@ -1,32 +1,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html charset=utf-8"/>
-	<title>test</title>
+<meta http-equiv="Content-Type" content="text/html charset=utf-8"/>
+<title>轻聊</title>
 </head>
 <body>
-    <h2 id="welcome">Hello Guest ~</h2>
-    <div id="registerForm">
-        用户名：<input type="text" name="loginName">
-        昵称：<input type="text" name="nickName">
-        密码：<input type="password" name="password">
-        <button id="register">注册</button>
+    <div class="header">
+        <div class="app-info">轻聊</div>
+        <div class="user-info navbar">登录 | 注册</div>
+    </div>
+    <div class="body">
+        <div class="chatform">
+            <div class="message-form">
+                <div class="message own">
+                    <div class="message-sender">碎碎酱</div>
+                    <div class="message-content">你好！</div>
+                </div>
+                <div class="message">
+                    <div class="message-sender">小明</div>
+                    <div class="message-content">啊！</div>
+                </div>
+                <div class="message">
+                    <div class="message-sender">小明</div>
+                    <div class="message-content">啊！</div>
+                </div>
+                <div class="message">
+                    <div class="message-sender">小明</div>
+                    <div class="message-content">啊！</div>
+                </div>
+                <div class="message">
+                    <div class="message-sender">小明</div>
+                    <div class="message-content">啊！</div>
+                </div>
+                <div class="message">
+                    <div class="message-sender">小明</div>
+                    <div class="message-content">啊！</div>
+                </div>
+                <div class="message">
+                    <div class="message-sender">小明</div>
+                    <div class="message-content">啊！</div>
+                </div>
+                <div class="message">
+                    <div class="message-sender">小明</div>
+                    <div class="message-content">啊！</div>
+                </div>
+                <div class="message">
+                    <div class="message-sender">小明</div>
+                    <div class="message-content">啊！</div>
+                </div>
+                <div class="message">
+                    <div class="message-sender">小明</div>
+                    <div class="message-content">啊！</div>
+                </div>
+                <div class="message">
+                    <div class="message-sender">小明</div>
+                    <div class="message-content">啊！</div>
+                </div>
+                <div class="message">
+                    <div class="message-sender">小明</div>
+                    <div class="message-content">啊！</div>
+                </div>
+                <div class="message">
+                    <div class="message-sender">小明</div>
+                    <div class="message-content">啊！</div>
+                </div>
+                <div class="message">
+                    <div class="message-sender">小明</div>
+                    <div class="message-content">啊！</div>
+                </div>
+            </div>
+            <div class="input-form">
+                <textarea class="input-area" id="message"></textarea>
+            </div>
+        </div>
     </div>
     
-    <br>
-    
-    <div id="loginForm">
-        用户名：<input type="text" name="loginName">
-        密码：<input type="password" name="password">
-        <button id="login">登录</button>
-    </div>
-    
-    <br>
-    
-    <input type="hidden" id="nickName">
-    <input type="text" id="msg">
-    <button id="send">发送消息</button>
-    
+<link rel="stylesheet" href="styles/style.css" type="text/css" />
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="js/dependencies/sails.io.js"></script>
 <script type="text/javascript" src="js/app.js"></script>

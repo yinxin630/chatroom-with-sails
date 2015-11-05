@@ -41,23 +41,31 @@ $('#login').click(function(){
     });
 });
 
-(function(){
-    $('#msg').width($('#msg').width() * 4);
+// (function(){
     
-    io.socket.on('message', function(data){
-        $('body').append('<p>' + data.nickName + " : " + data.msg + '<p>');
-    })
+//     io.socket.on('message', function(data){
+//         $('body').append('<p>' + data.nickName + " : " + data.msg + '<p>');
+//     })
     
-    $.ajax({
-        url: '/session',
-        type: 'get',
-        error: function(req, err) {
-            // alert(err);
-        },
-        success: function(resData) {
-            $('#welcome').text('Hello ' + resData.nickName + ' ~');
-            $('#nickName').val(resData.nickName);
-            io.socket.get('/message');
-        }
-    });
-})();
+//     $.ajax({
+//         url: '/session',
+//         type: 'get',
+//         error: function(req, err) {
+//             // alert(err);
+//         },
+//         success: function(resData) {
+//             $('#welcome').text('Hello ' + resData.nickName + ' ~');
+//             $('#nickName').val(resData.nickName);
+//             io.socket.get('/message');
+//         }
+//     });
+// })();
+
+/**
+ * 页面初始化显示
+ */
+$(document).ready(function () {
+    $('.body').height($(window).height() - $('.header').height() - 23);
+    $('.message-form').height($('.body').height() - $('.input-form').height());
+    $('.input-area').width($('.input-form').width() - parseInt($('.input-area').css('padding-right')) - parseInt($('.input-area').css('padding-left')));
+});
