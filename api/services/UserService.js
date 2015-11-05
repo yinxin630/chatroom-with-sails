@@ -6,17 +6,11 @@ module.exports = {
             if (err) {
                 return res.negotiate(err);
             }
-            sails.log(record);
-            session.user = record;
+            var user = {};
+            user.nickName = record.nickName;
+            session.user = user;
             SessionService.sessionBuffer.push(session.id);
-            sails.log(SessionService.sessionBuffer);
-            return res.json(record);
-        });
-    },
-    
-    update: function (loginName, nickName, res) {
-        User.update({ loginName: loginName }, { nickName: nickName }).exec(function (err, record) {
-            resUtil.handleCommonResponse(err, record);
+            return res.json(user);
         });
     }
 }

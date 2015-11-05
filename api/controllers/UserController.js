@@ -12,12 +12,6 @@ module.exports = {
         var password = req.param('password');
         var session = req.session;
         UserService.create(loginName, nickName, password, session, res);
-    },
-    
-    update: function (req, res) {
-        var loginName = req.param('loginName');
-        var nickName = req.param('nickName', '');
-        UserService.update(loginName, nickName, res);
-    },
+    }
 };
 

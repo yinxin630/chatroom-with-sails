@@ -10,14 +10,14 @@ module.exports = {
                 if (record[0].password != password) {
                     return res.badRequest("wrong password.");
                 }
-                session.user = record;
+                var user = {};
+                user.nickName = record[0].nickName;
+                session.user = user;
                 this.sessionBuffer.push(session.id);
-                return res.ok(record);
+                return res.ok(user);
             });
         }
-        else {
-            sails.log('user already logged.');
-        }
+        return res.ok('user already logged.');
     },
 
     destroy: function (session, res) {
@@ -26,7 +26,7 @@ module.exports = {
             return res.badRequest("you don't logged.");
         }
         this.sessionBuffer.remove(index);
-        return res.ok();
+        return res.ok('logout success');
     },
     
     find: function (session, res) {
