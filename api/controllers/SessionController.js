@@ -8,7 +8,7 @@
 module.exports = {
     create: function (req, res) {
         var session = req.session;
-        var nickName = req.param('nickName');
+        var nickName = req.param('nickName', '');
         SessionService.create(session, nickName, res);
     },
     

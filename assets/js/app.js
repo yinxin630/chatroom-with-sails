@@ -19,7 +19,22 @@ $('#edit-image').click(function () {
  * 修改昵称
  */
 $('#input-nickname-button').click(function () {
-    
+    $.ajax({
+        url: '/user',
+        type: 'put',
+        data: {
+            nickName: $('#input-nickname-textbox').val(),
+        },
+        error: function (req, err) {
+            alert(err);
+        },
+        success: function (resData) {
+            $('#nickName').val(resData.datas.nickName);
+            $('#nickName').change();
+            $('.input-nickname').hide(1000);
+        }
+    });
+    $('#input-nickname-textbox').val('');
 });
 $('#nickName').change(function () {
     $('#user-nickname').text($('#nickName').val());
@@ -52,7 +67,7 @@ $('#nickName').change(function () {
                 url: '/session',
                 type: 'post',
                 data: {
-                    nickName: '游客',
+                    nickName: '',
                 },
                 error: function (req, err) {
                     alert('Create session failed');
@@ -67,7 +82,7 @@ $('#nickName').change(function () {
         success: function (resData) {
             $('#nickName').val(resData.datas.nickName);
             $('#nickName').change();
-            $('.input-nickname').hide(1000);
+            $('.input-nickname').hide(500);
             io.socket.get('/message');
         }
     });

@@ -2,6 +2,9 @@ var ResponseUtil = require('../util/ResponseUtil');
 
 module.exports = {
     create: function (session, nickName, res) {
+        if (nickName == '') {
+            nickName = '游客' + Math.round(Math.random() * 100000);
+        }
         User.create({ nickName: nickName }).exec(function (err, userResult) {
             if (err) {
                 sails.log(typeof (err));
