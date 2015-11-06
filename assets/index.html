@@ -7,71 +7,29 @@
 <body>
     <div class="header">
         <div class="app-info">轻聊</div>
-        <div class="user-info navbar">登录 | 注册</div>
+        <div class="user-info">
+            <span class="nick-name" id="user-nickname"></span>
+            <div class="edit-image" id="edit-image">
+                <img src="images/edit.png" width="30px" height="30px">
+            </div>
+        </div>
     </div>
     <div class="body">
-        <div class="chatform">
-            <div class="message-form">
-                <div class="message">
-                    <div class="message-sender">碎碎酱</div>
-                    <div class="message-content">你好！</div>
-                </div>
-                <div class="message">
-                    <div class="message-sender">小明</div>
-                    <div class="message-content">啊！</div>
-                </div>
-                <div class="message">
-                    <div class="message-sender">小明</div>
-                    <div class="message-content">啊！</div>
-                </div>
-                <div class="message">
-                    <div class="message-sender">小明</div>
-                    <div class="message-content">啊！</div>
-                </div>
-                <div class="message">
-                    <div class="message-sender">小明</div>
-                    <div class="message-content">啊！</div>
-                </div>
-                <div class="message">
-                    <div class="message-sender">小明</div>
-                    <div class="message-content">啊！</div>
-                </div>
-                <div class="message">
-                    <div class="message-sender">小明</div>
-                    <div class="message-content">啊！</div>
-                </div>
-                <div class="message">
-                    <div class="message-sender">小明</div>
-                    <div class="message-content">啊！</div>
-                </div>
-                <div class="message">
-                    <div class="message-sender">小明</div>
-                    <div class="message-content">啊！</div>
-                </div>
-                <div class="message">
-                    <div class="message-sender">小明</div>
-                    <div class="message-content">啊！</div>
-                </div>
-                <div class="message">
-                    <div class="message-sender">小明</div>
-                    <div class="message-content">啊！</div>
-                </div>
-                <div class="message">
-                    <div class="message-sender">小明</div>
-                    <div class="message-content">啊！</div>
-                </div>
-                <div class="message">
-                    <div class="message-sender">小明</div>
-                    <div class="message-content">啊！</div>
-                </div>
-                <div class="message">
-                    <div class="message-sender">小明</div>
-                    <div class="message-content">啊！</div>
-                </div>
+        <div class="chatform" id="chatform">
+            <div class="message-form" id="message-form">
+                
             </div>
             <div class="input-form">
                 <textarea class="input-area" id="message"></textarea>
             </div>
+        </div>
+    </div>
+    
+    <div class="input-nickname">
+        <p class="prompt-info">请输入昵称   ლ(^o^ლ)</p>
+        <div>
+            <input type="text" placeholder="昵称" id="input-nickname-textbox">
+            <button id="input-nickname-button">确定</button>
         </div>
     </div>
     
