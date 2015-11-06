@@ -7,8 +7,15 @@
 
 module.exports = {
 
-  attributes: {
-
-  }
+    attributes: {
+        id: {
+            type: 'string',
+            required: true,
+        },
+        
+        user: {
+            model: 'user',
+        }
+    }
 };
 
