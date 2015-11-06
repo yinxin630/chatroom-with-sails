@@ -8,9 +8,10 @@
 module.exports = {
 
     attributes: {
-        id: {
+        sessionId: {
             type: 'string',
             required: true,
+            unique: true,
         },
         
         user: {
