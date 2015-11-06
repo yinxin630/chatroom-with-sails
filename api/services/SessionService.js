@@ -56,10 +56,10 @@ module.exports = {
             }
             else if (!sessionResult) {
                 var resData = ResponseUtil.getNotFound('Session not exists.')
-                return res.notFount(resData);
+                return res.notFound(resData);
             }
 
-            var resData = ResponseUtil.getOk('Session already exists.');
+            var resData = ResponseUtil.getOk('Get session success.');
             resData.datas = {
                 nickName: sessionResult.user.nickName,
             };

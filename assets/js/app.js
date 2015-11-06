@@ -1,65 +1,46 @@
-$('#register').click(function(){
-    $.ajax({
-        url: '/user',
-        type: 'post',
-        data: {
-            loginName:$('#registerForm').find('input[name=loginName]').val(),
-            nickName:$('#registerForm').find('input[name=nickName]').val(),
-            password:$('#registerForm').find('input[name=password]').val()
-        },
-        error: function(req, err) {
-            alert(err);
-        },
-        success: function(resData) {
-            $('#welcome').text('Hello ' + resData.nickName + ' ~');
-            $('#nickName').val(resData.nickName);
-            io.socket.get('/message');
-        }
+$('#send').click(function () {
+    io.socket.post('/message', { msg: $('#msg').val(), nickName: $('#nickName').val() });
+});
+$('#message').keydown(function () {
+    if (event.keyCode == '13') {
+        io.socket.post('/message', { msg: $('#message').val(), nickName: $('#nickName').val() });
+        $('#message').val('');
+    }
+});
+
+/**
+ * 客户端初始化连接
+ */
+(function () {
+    io.socket.on('message', function (msg) {
+        alert(msg.msg);
     });
-});
-
-$('#send').click(function(){
-    io.socket.post('/message', {msg:$('#msg').val(),nickName:$('#nickName').val()});
-});
-
-$('#login').click(function(){
+    
     $.ajax({
         url: '/session',
-        type: 'post',
-        data: {
-            loginName:$('#loginForm').find('input[name=loginName]').val(),
-            password:$('#loginForm').find('input[name=password]').val()
+        type: 'get',
+        error: function (req, err) {
+            $.ajax({
+                url: '/session',
+                type: 'post',
+                data: {
+                    nickName: '碎碎酱',
+                },
+                error: function (req, err) {
+                    alert('Create session failed');
+                },
+                success: function (resData) {
+                    $('#nickName').val(resData.datas.nickName);
+                    io.socket.get('/message');
+                }
+            });
         },
-        error: function(req, err) {
-            alert(err);
-        },
-        success: function(resData) {
-            $('#welcome').text('Hello ' + resData.nickName + ' ~');
-            $('#nickName').val(resData.nickName);
+        success: function (resData) {
+            $('#nickName').val(resData.datas.nickName);
             io.socket.get('/message');
         }
     });
-});
-
-// (function(){
-    
-//     io.socket.on('message', function(data){
-//         $('body').append('<p>' + data.nickName + " : " + data.msg + '<p>');
-//     })
-    
-//     $.ajax({
-//         url: '/session',
-//         type: 'get',
-//         error: function(req, err) {
-//             // alert(err);
-//         },
-//         success: function(resData) {
-//             $('#welcome').text('Hello ' + resData.nickName + ' ~');
-//             $('#nickName').val(resData.nickName);
-//             io.socket.get('/message');
-//         }
-//     });
-// })();
+})();
 
 /**
  * 页面初始化显示
