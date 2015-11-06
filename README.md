@@ -10,5 +10,6 @@
 
 1. clone项目（URL:https://github.com/yinxin630/chatroom-with-sails/）
 2. 在终端中跳转到项目目录（*cd chatroom-with-sails*）
+3. 创建.tmp目录（win下grunt无法自己创建.tmp目录，其它系统未知）
 3. 安装依赖（*npm install*）
 4. 安装数据库模块（*npm install sails-memory*）
