@@ -50,6 +50,7 @@ module.exports.policies = {
 	// }
     
     UserController: {
+        'update': true,
         '*': false,
     },
     
