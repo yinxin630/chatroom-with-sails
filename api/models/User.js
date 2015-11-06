@@ -10,7 +10,7 @@ module.exports = {
     attributes: {
         nickName: {
             type: 'string',
-            size: 128,
+            size: 16,
             required: true,
         },
         
