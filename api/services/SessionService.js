@@ -1,39 +1,72 @@
-module.exports = {
-    sessionBuffer: [],
+var ResponseUtil = require('../util/ResponseUtil');
 
-    create: function (session, loginName, password, res) {
-        if (this.sessionBuffer.indexOf(session.id) < 0) {
-            User.findOne({ loginName: loginName }).exec(function (err, record) {
+module.exports = {
+    create: function (session, nickName, res) {
+        if (nickName == '') {
+            nickName = '游客' + Math.round(Math.random() * 100000);
+        }
+        User.create({ nickName: nickName }).exec(function (err, userResult) {
+            if (err) {
+                sails.log(typeof (err));
+                return res.negotiate(err);
+            }
+            Session.create({ sessionId: session.id, user: userResult.id }).exec(function (err, sessionResult) {
                 if (err) {
+                    sails.log(typeof (err));
                     return res.negotiate(err);
                 }
-                if (record[0].password != password) {
-                    return res.badRequest("wrong password.");
-                }
-                var user = {};
-                user.nickName = record[0].nickName;
-                session.user = user;
-                this.sessionBuffer.push(session.id);
-                return res.ok(user);
-            });
-        }
-        return res.ok('user already logged.');
+
+                var resData = ResponseUtil.getCreate('Create session success.');
+                resData.datas = {
+                    nickName: userResult.nickName,
+                };
+                return res.ok(resData);
+            })
+        });
     },
 
     destroy: function (session, res) {
-        var index = -1;
-        if ((index = this.sessionBuffer.indexOf(session.id)) < 0) {
-            return res.badRequest("you don't logged.");
-        }
-        this.sessionBuffer.remove(index);
-        return res.ok('logout success');
+        Session.destroy({ sessionId: session.id }).populate('user').exec(function (err, sessionResults) {
+            if (err) {
+                sails.log(typeof (err));
+                return res.negotiate(err);
+            }
+            else if (sessionResults.length == 0) {
+                var resData = ResponseUtil.getNotFound('Session not exists.')
+                return res.notFound(resData);
+            }
+
+            User.destroy({ id: sessionResult.user.id }).exec(function (err, userResult) {
+                if (err) {
+                    sails.log(typeof (err));
+                    return res.negotiate(err);
+                }
+                
+                var resData = ResponseUtil.getOk('Session has been destroyed.')
+                resData.datas = {
+                    nickName: userResult.nickName,
+                };
+                return res.ok(resData);
+            });
+        })
     },
-    
+
     find: function (session, res) {
-        var index = -1;
-        if ((index = this.sessionBuffer.indexOf(session.id)) < 0) {
-            return res.badRequest("you don't logged.");
-        }
-        return res.ok(session.user);
+        Session.findOne({ sessionId: session.id }).populate('user').exec(function (err, sessionResult) {
+            if (err) {
+                sails.log(typeof (err));
+                return res.negotiate(err);
+            }
+            else if (!sessionResult) {
+                var resData = ResponseUtil.getNotFound('Session not exists.')
+                return res.notFound(resData);
+            }
+
+            var resData = ResponseUtil.getOk('Get session success.');
+            resData.datas = {
+                nickName: sessionResult.user.nickName,
+            };
+            return res.ok(resData);
+        })
     }
 }

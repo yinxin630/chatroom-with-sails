@@ -1,32 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html charset=utf-8"/>
-	<title>test</title>
+<meta http-equiv="Content-Type" content="text/html charset=utf-8"/>
+<title>轻聊</title>
 </head>
 <body>
-    <h2 id="welcome">Hello Guest ~</h2>
-    <div id="registerForm">
-        用户名：<input type="text" name="loginName">
-        昵称：<input type="text" name="nickName">
-        密码：<input type="password" name="password">
-        <button id="register">注册</button>
+    <div class="header">
+        <div class="app-info">轻聊</div>
+        <div class="user-info">
+            <span class="nick-name" id="user-nickname"></span>
+            <div class="edit-image" id="edit-image">
+                <img src="images/edit.png" width="30px" height="30px">
+            </div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="chatform" id="chatform">
+            <div class="message-form" id="message-form">
+                
+            </div>
+            <div class="input-form">
+                <textarea class="input-area" id="message"></textarea>
+            </div>
+        </div>
     </div>
     
-    <br>
-    
-    <div id="loginForm">
-        用户名：<input type="text" name="loginName">
-        密码：<input type="password" name="password">
-        <button id="login">登录</button>
+    <div class="input-nickname">
+        <p class="prompt-info">请输入昵称   ლ(^o^ლ)</p>
+        <div>
+            <input type="text" placeholder="昵称" id="input-nickname-textbox">
+            <button id="input-nickname-button">确定</button>
+        </div>
     </div>
-    
-    <br>
     
     <input type="hidden" id="nickName">
-    <input type="text" id="msg">
-    <button id="send">发送消息</button>
     
+<link rel="stylesheet" href="styles/style.css" type="text/css" />
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="js/dependencies/sails.io.js"></script>
 <script type="text/javascript" src="js/app.js"></script>

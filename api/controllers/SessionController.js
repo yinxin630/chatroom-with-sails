@@ -8,9 +8,8 @@
 module.exports = {
     create: function (req, res) {
         var session = req.session;
-        var loginName = req.param('loginName');
-        var password = req.param('password');
-        SessionService.create(session, loginName, password, res);
+        var nickName = req.param('nickName', '');
+        SessionService.create(session, nickName, res);
     },
     
     destroy: function (req, res) {
@@ -23,4 +22,3 @@ module.exports = {
         SessionService.find(session, res);
     }
 };
-

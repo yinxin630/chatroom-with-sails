@@ -7,8 +7,16 @@
 
 module.exports = {
 
-  attributes: {
-
-  }
+    attributes: {
+        sessionId: {
+            type: 'string',
+            required: true,
+            unique: true,
+        },
+        
+        user: {
+            model: 'user',
+        }
+    }
 };
 

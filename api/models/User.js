@@ -8,22 +8,14 @@
 module.exports = {
 
     attributes: {
-        loginName: {
-            type: 'string',
-            size: 32,
-            required: true,
-            unique: true,
-        },
-        
         nickName: {
             type: 'string',
-            size: 128,
+            size: 16,
+            required: true,
         },
         
-        password: {
-            type: 'string',
-            size: 128,
+        session: {
+            model: 'session',
         }
     }
 };
-

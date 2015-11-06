@@ -6,12 +6,10 @@
  */
 
 module.exports = {
-    create: function (req, res) {
-        var loginName = req.param('loginName');
-        var nickName = req.param('nickName', '');
-        var password = req.param('password');
+    update: function (req, res) {
         var session = req.session;
-        UserService.create(loginName, nickName, password, session, res);
-    }
+        var nickName = req.param('nickName', '');
+        UserService.update(session, nickName, res);
+    },
 };
 
