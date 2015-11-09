@@ -3,6 +3,9 @@ var ResponseUtil = require('../util/ResponseUtil')
 module.exports = {
     update: function (session, nickName, res) {
         nickName = nickName.slice(0, 16);
+        if (nickName == '') {
+            nickName = '游客' + Math.round(Math.random() * 100000);
+        }
         Session.findOne({ sessionId: session.id }).populate('user').exec(function (err, sessionResult) {
             if (err) {
                 sails.log(err);
