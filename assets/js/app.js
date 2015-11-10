@@ -52,6 +52,7 @@ $('#nickName').change(function () {
         var contentDiv = $('<div></div>').attr('class', 'message-content').text(msg.msg);
         var messageDiv = $('<div"></div>').attr('class', 'message').append(senderDiv).append(contentDiv);
         $('#message-form').append(messageDiv);
+        $('#message-form').animate({ scrollTop: messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() }, 500);
     });
     
     /**
