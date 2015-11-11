@@ -98,11 +98,11 @@ body {
 }
 
 .message-content {
-    background-color: #FFFFFF;
+    background-color: #EEEEEE;
     color: #000000;
     display: inline-block;
     padding: 3px 10px;
-    font-size: 18px;
+    font-size: 16px;
     border-radius: 10px;
     margin: 5px 0px 0px 0px;
 }
