@@ -55,8 +55,8 @@ $('#nickName').change(function () {
         var messageData = msg.msg;
         // alert(messageData[0]);
         messageData = messageData.replace(/\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u2029)/g, '<br>');
-        messageData = messageData.replace(/ /g, '&nbsp');
-        messageData = messageData.replace(/\t/g, '&nbsp&nbsp&nbsp&nbsp');
+        messageData = messageData.replace(/  /g, '&nbsp');
+        messageData = messageData.replace(/\t/g, '&nbsp&nbsp');
         var senderDiv = $('<div></div>').attr('class', 'message-sender').text(msg.nickName);
         var contentDiv = $('<div></div>').attr('class', 'message-content').html(messageData);
         var messageDiv = $('<div"></div>').attr('class', 'message').append(senderDiv).append(contentDiv);
