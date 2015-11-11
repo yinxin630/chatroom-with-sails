@@ -10,7 +10,7 @@ module.exports = {
             return res.badRequest(ResponseUtil.getBadRequest('You have not joined the room.'));
         }
         
-        var msg = req.param('msg');
+        var msg = req.param('msg').replace(/&/g, '&amp').replace(/\"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         var nickName = req.param('nickName');
         sails.sockets.broadcast('default', 'message', { msg: msg, nickName: nickName});
         return res.ok(ResponseUtil.getOk('Send message success.'));
