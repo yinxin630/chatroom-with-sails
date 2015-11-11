@@ -57,8 +57,9 @@ body {
 
 .chatform {
     background-color: #99bbbb;
-    width: 80%;
-    margin: 0 10%;
+    width: 900px;
+    margin-left: auto;
+    margin-right: auto;
     height: 100%;
     border-radius: 20px;
     opacity: 0.7;
@@ -77,8 +78,13 @@ body {
     padding: 10px 20px;
     
 }
+.input-area-info {
+    position: absolute;
+    bottom: 10px;
+    font-size: 14px;
+    color: seagreen;
+}
 .input-form {
-    /*height: 100px;*/
     width: 100%;
 }
 .message {

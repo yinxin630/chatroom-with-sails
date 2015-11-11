@@ -2,9 +2,13 @@
  * 回车发送消息
  */
 $('#message').keydown(function () {
-    if (event.keyCode == '13') {
+    if (event.keyCode == '13' && !event.shiftKey) {
+        if ($('#message').val() == '') {
+            return false;
+        }
         io.socket.post('/message', { msg: $('#message').val(), nickName: $('#nickName').val() });
         $('#message').val('');
+        return false;
     }
 });
 
@@ -48,10 +52,16 @@ $('#nickName').change(function () {
      * 注册消息处理函数
      */
     io.socket.on('message', function (msg) {
+        var messageData = msg.msg;
+        // alert(messageData[0]);
+        messageData = messageData.replace(/\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u2029)/g, '<br>');
+        messageData = messageData.replace(/ /g, '&nbsp');
+        messageData = messageData.replace(/\t/g, '&nbsp&nbsp&nbsp&nbsp');
         var senderDiv = $('<div></div>').attr('class', 'message-sender').text(msg.nickName);
-        var contentDiv = $('<div></div>').attr('class', 'message-content').text(msg.msg);
+        var contentDiv = $('<div></div>').attr('class', 'message-content').html(messageData);
         var messageDiv = $('<div"></div>').attr('class', 'message').append(senderDiv).append(contentDiv);
         $('#message-form').append(messageDiv);
+        $('#message-form').animate({ scrollTop: messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() }, 500);
     });
     
     /**
@@ -101,5 +111,7 @@ $(window).resize(function () {
 function dynamicResizing() {
     $('.body').height($(window).height() - $('.header').outerHeight());
     $('.message-form').outerHeight($('.body').height() - $('.input-form').outerHeight());
+    $('.chatform').width($(window).width() < 900 ? $(window).width() : $('.chatform').width());
     $('.input-area').outerWidth($('.input-form').width());
+    $('.input-area-info').css('right', ($(window).width() - $('.chatform').width()) / 2 + 10);
 }

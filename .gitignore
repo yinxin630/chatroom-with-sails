@@ -71,6 +71,7 @@ bower_components
 
 # vsc 配置文件
 .vscode
+typings
 
 
 ################################################
