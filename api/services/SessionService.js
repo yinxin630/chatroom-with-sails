@@ -36,7 +36,7 @@ module.exports = {
                 return res.notFound(resData);
             }
 
-            User.destroy({ id: sessionResult.user.id }).exec(function (err, userResult) {
+            User.destroy({ id: sessionResults[0].user.id }).exec(function (err, userResult) {
                 if (err) {
                     sails.log(typeof (err));
                     return res.negotiate(err);
