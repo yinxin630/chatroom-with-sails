@@ -112,6 +112,7 @@ function dynamicResizing() {
     $('.body').height($(window).height() - $('.header').outerHeight());
     $('.message-form').outerHeight($('.body').height() - $('.input-form').outerHeight());
     $('.chatform').width($(window).width() < 900 ? $(window).width() : $('.chatform').width());
+    $('.message-form').width($('.chatform').width());
     $('.input-area').outerWidth($('.input-form').width());
     $('.input-area-info').css('right', ($(window).width() - $('.chatform').width()) / 2 + 10);
 }
