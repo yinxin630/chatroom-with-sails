@@ -1,8 +1,8 @@
 /**
  * 回车发送消息
  */
-$('#message').keydown(function () {
-    if (event.keyCode == '13' && !event.shiftKey) {
+$('#message').keydown(function (event) {
+    if (event.keyCode == 13 && !event.shiftKey) {
         if ($('#message').val() == '') {
             return false;
         }
