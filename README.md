@@ -1,9 +1,5 @@
 # chatroom-with-sails
--------------
-# 简介
-
 一个基于sails框架编写的简易Web聊天室
-
 
 # 使用说明
 首先确定机器上已经安装了Node.js和Sails框架
