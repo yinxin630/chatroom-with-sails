@@ -96,22 +96,6 @@ $('#nickName').change(function () {
             io.socket.get('/message');
         }
     });
-    
-    /**
-     * 用户退出处理
-     */
-    $(window).unload(function () {
-        $.ajax({
-            url: '/session',
-            type: 'delete',
-            error: function (req, err) {
-                
-            },
-            success: function (resData) {
-                alert('success');
-            }
-        });
-    });
 })();
 
 /**
