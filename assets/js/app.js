@@ -61,13 +61,14 @@ $('#nickName').change(function () {
         var contentDiv = $('<div></div>').attr('class', 'message-content').html(messageData);
         var messageDiv = $('<div"></div>').attr('class', 'message').append(senderDiv).append(contentDiv);
         $('#message-form').append(messageDiv);
+        var moreHeightthanMsgForm = messageDiv.outerHeight() - $('#message-form').outerHeight();
         if ($('#message-form').children().length == 1 || $('#message-form').scrollTop() >= prevScrollTop) {
-            $('#message-form').animate({ scrollTop: messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + messageDiv.outerHeight() }, 500, function () {
+            $('#message-form').animate({ scrollTop: messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + moreHeightthanMsgForm }, 200, function () {
                 prevScrollTop = $('#message-form').scrollTop();
             });
         }
         else {
-            prevScrollTop = messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + (messageDiv.outerHeight() > $('#message-form').height() ? messageDiv.outerHeight() - $('#message-form').outerHeight() : 0);
+            prevScrollTop = messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + moreHeightthanMsgForm;
         }
     });
 

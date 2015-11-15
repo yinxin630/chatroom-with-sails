@@ -16,7 +16,7 @@ module.exports = {
             if (nickName == '') {
                 var resData = ResponseUtil.getOk(ResponseInfo.NICK_MODIFIED_SUCCESS);
                 resData.datas = {
-                    nickName: userResult.nickName,
+                    nickName: sessionResult.user.nickName,
                 }
                 return res.ok(resData);
             }
