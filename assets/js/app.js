@@ -117,7 +117,7 @@ $(window).resize(function () {
 });
 
 function dynamicResizing() {
-    $('.body').height($(window).height() - $('.header').outerHeight());
+    $('.body').height(window.innerHeight - $('.header').outerHeight());
     $('.message-form').outerHeight($('.body').height() - $('.input-form').outerHeight());
     $('.chatform').width($(window).width() < 900 ? $(window).width() : $('.chatform').width());
     $('.message-form').width($('.chatform').width());
