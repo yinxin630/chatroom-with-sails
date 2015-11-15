@@ -48,6 +48,7 @@ $('#nickName').change(function () {
  * 客户端初始化连接
  */
 (function () {
+    var prevScrollTop = 0;
     /**
      * 注册消息处理函数
      */
@@ -61,7 +62,14 @@ $('#nickName').change(function () {
         var contentDiv = $('<div></div>').attr('class', 'message-content').html(messageData);
         var messageDiv = $('<div"></div>').attr('class', 'message').append(senderDiv).append(contentDiv);
         $('#message-form').append(messageDiv);
-        $('#message-form').animate({ scrollTop: messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() }, 500);
+        if ($('#message-form').children().length == 1 || $('#message-form').scrollTop() >= prevScrollTop) {
+            $('#message-form').animate({ scrollTop: messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + messageDiv.outerHeight()}, 500, function () {
+                prevScrollTop = $('#message-form').scrollTop();
+            });
+        }
+        else {
+            prevScrollTop = messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + (messageDiv.outerHeight() > $('#message-form').height() ? messageDiv.outerHeight() - $('#message-form').outerHeight() : 0);
+        }
     });
     
     /**
