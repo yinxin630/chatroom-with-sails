@@ -9,7 +9,7 @@ body {
     right: 0px;
     bottom: 0px;
     left: 0px;
-    background-color: rgba(5, 5, 5, .6);
+    background-color: rgba(5, 5, 5, .3);
     text-align: center;
     color: black;
     padding-top: 20%;
@@ -111,4 +111,24 @@ body {
     padding-left: 800px;
     text-align: right;
     color: red;
+}
+
+.disconnect-info {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: rgba(5, 5, 5, .3);
+    text-align: center;
+    color: black;
+    padding-top: 20%;
+    display: none;
+}
+
+#disconnect-animation {
+    width: 100px;
+    height: 100px;
+    margin: 30px 45%;
+    
 }

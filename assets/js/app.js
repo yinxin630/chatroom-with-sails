@@ -54,7 +54,6 @@ $('#nickName').change(function () {
      */
     io.socket.on('message', function (msg) {
         var messageData = msg.msg;
-        // alert(messageData[0]);
         messageData = messageData.replace(/\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u2029)/g, '<br>');
         messageData = messageData.replace(/  /g, '&nbsp');
         messageData = messageData.replace(/\t/g, '&nbsp&nbsp');
@@ -63,7 +62,7 @@ $('#nickName').change(function () {
         var messageDiv = $('<div"></div>').attr('class', 'message').append(senderDiv).append(contentDiv);
         $('#message-form').append(messageDiv);
         if ($('#message-form').children().length == 1 || $('#message-form').scrollTop() >= prevScrollTop) {
-            $('#message-form').animate({ scrollTop: messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + messageDiv.outerHeight()}, 500, function () {
+            $('#message-form').animate({ scrollTop: messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + messageDiv.outerHeight() }, 500, function () {
                 prevScrollTop = $('#message-form').scrollTop();
             });
         }
@@ -71,39 +70,50 @@ $('#nickName').change(function () {
             prevScrollTop = messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + (messageDiv.outerHeight() > $('#message-form').height() ? messageDiv.outerHeight() - $('#message-form').outerHeight() : 0);
         }
     });
-    
-    /**
-     * 判断用户是否已存在
-     * 1. 为存在，调用接口创建会话
-     * 2. 已存在，设置页面隐藏域昵称为用户昵称
-     */
-    $.ajax({
-        url: '/session',
-        type: 'get',
-        error: function (req, err) {
-            $.ajax({
-                url: '/session',
-                type: 'post',
-                data: {
-                    nickName: '',
-                },
-                error: function (req, err) {
-                    alert('Create session failed');
-                },
-                success: function (resData) {
-                    $('#nickName').val(resData.datas.nickName);
-                    $('#nickName').change();
-                    io.socket.get('/message');
-                }
-            });
-        },
-        success: function (resData) {
-            $('#nickName').val(resData.datas.nickName);
-            $('#nickName').change();
-            $('.input-nickname').hide(500);
-            io.socket.get('/message');
-        }
+
+    io.socket.on('connect', function () {
+        /**
+        * 判断用户是否已存在
+        * 1. 若不存在，调用接口创建会话
+        * 2. 已存在，设置页面隐藏域昵称为用户昵称
+        */
+        $.ajax({
+            url: '/session',
+            type: 'get',
+            error: function (req, err) {
+                $.ajax({
+                    url: '/session',
+                    type: 'post',
+                    data: {
+                        nickName: '',
+                    },
+                    error: function (req, err) {
+                        alert('Create session failed');
+                    },
+                    success: function (resData) {
+                        $('#nickName').val(resData.datas.nickName);
+                        $('#nickName').change();
+                        io.socket.get('/message');
+                    }
+                });
+            },
+            success: function (resData) {
+                $('#nickName').val(resData.datas.nickName);
+                $('#nickName').change();
+                $('.input-nickname').hide(500);
+                io.socket.get('/message');
+            }
+        });
+        $('.disconnect-info').hide();
     });
+
+    io.socket.on('disconnect', function () {
+        $('.disconnect-info').show();
+    });
+    
+    $('#disconnect-animation').shCircleLoader();
+
+
 })();
 
 /**
