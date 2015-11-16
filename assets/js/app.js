@@ -29,11 +29,11 @@ $('#input-nickname-button').click(function () {
         data: {
             nickName: $('#input-nickname-textbox').val(),
         },
-        error: function (req, err) {
-            alert(err);
+        error: function (res) {
+            alert(res.responseJSON.msg);
         },
         success: function (resData) {
-            $('#nickName').val(resData.datas.nickName);
+            $('#nickName').val(resData.nickName);
             $('#nickName').change();
             $('.input-nickname').hide(1000);
         }
@@ -88,20 +88,20 @@ $('#nickName').change(function () {
                     data: {
                         nickName: '',
                     },
-                    error: function (req, err) {
-                        alert('Create session failed');
+                    error: function (res) {
+                        alert(res.responseJSON.msg);
                     },
                     success: function (resData) {
-                        $('#nickName').val(resData.datas.nickName);
+                        $('#nickName').val(resData.nickName);
                         $('#nickName').change();
                         io.socket.get('/message');
                     }
                 });
             },
             success: function (resData) {
-                $('#nickName').val(resData.datas.nickName);
+                $('#nickName').val(resData.nickName);
                 $('#nickName').change();
-                $('.input-nickname').hide(500);
+                $('.input-nickname').hide();
                 io.socket.get('/message');
             }
         });
