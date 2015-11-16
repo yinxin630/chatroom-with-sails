@@ -9,19 +9,18 @@ module.exports = {
         User.create({ nickName: nickName }).exec(function (err, userResult) {
             if (err) {
                 sails.log(err);
-                res.serverError(ResponseUtil.getInternalServerError(ResponseInfo.SERVER_ERROR));
+                return ResponseUtil.responseServerError(ResponseInfo.SERVER_ERROR, res);
             }
             Session.create({ sessionId: session.id, user: userResult.id }).exec(function (err, sessionResult) {
                 if (err) {
                     sails.log(err);
-                    res.serverError(ResponseUtil.getInternalServerError(ResponseInfo.SERVER_ERROR));
+                    return ResponseUtil.responseServerError(ResponseInfo.SERVER_ERROR, res);
                 }
 
-                var resData = ResponseUtil.getCreate(ResponseInfo.CREATE_SESSION_SUCCESS);
-                resData.datas = {
+                var resData = {
                     nickName: userResult.nickName,
                 };
-                return res.ok(resData);
+                return ResponseUtil.responseCreated(resData, res);
             })
         });
     },
@@ -30,24 +29,18 @@ module.exports = {
         Session.destroy({ sessionId: session.id }).populate('user').exec(function (err, sessionResults) {
             if (err) {
                 sails.log(err);
-                res.serverError(ResponseUtil.getInternalServerError(ResponseInfo.SERVER_ERROR));
+                return ResponseUtil.responseServerError(ResponseInfo.SERVER_ERROR, res);
             }
             else if (sessionResults.length == 0) {
-                var resData = ResponseUtil.getNotFound(ResponseInfo.SESSION_NOT_EXISTS)
-                return res.notFound(resData);
+                return ResponseUtil.responseNotFound(ResponseInfo.SESSION_NOT_EXISTS, res);
             }
 
             User.destroy({ id: sessionResults[0].user.id }).exec(function (err, userResult) {
                 if (err) {
                     sails.log(err);
-                    res.serverError(ResponseUtil.getInternalServerError(ResponseInfo.SERVER_ERROR));
+                    return ResponseUtil.responseServerError(ResponseInfo.SERVER_ERROR, res);
                 }
-                
-                var resData = ResponseUtil.getOk(ResponseInfo.DESTROY_SESSION_SUCCESS)
-                resData.datas = {
-                    nickName: userResult.nickName,
-                };
-                return res.ok(resData);
+                return ResponseUtil.responseDeleted(ResponseInfo.DESTROY_SESSION_SUCCESS, res);
             });
         })
     },
@@ -56,18 +49,16 @@ module.exports = {
         Session.findOne({ sessionId: session.id }).populate('user').exec(function (err, sessionResult) {
             if (err) {
                 sails.log(err);
-                res.serverError(ResponseUtil.getInternalServerError(ResponseInfo.SERVER_ERROR));
+                return ResponseUtil.responseServerError(ResponseInfo.SERVER_ERROR, res);
             }
             else if (!sessionResult) {
-                var resData = ResponseUtil.getNotFound(ResponseInfo.SESSION_NOT_EXISTS);
-                return res.notFound(resData);
+                return ResponseUtil.responseNotFound(ResponseInfo.SESSION_NOT_EXISTS, res);
             }
 
-            var resData = ResponseUtil.getOk(ResponseInfo.GET_SESSION_SUCCESS);
-            resData.datas = {
+            var resData = {
                 nickName: sessionResult.user.nickName,
             };
-            return res.ok(resData);
+            return ResponseUtil.responseOk(resData, res);
         })
     }
 }

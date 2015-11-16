@@ -1,40 +1,42 @@
 /**
  * HTTP协议标准返回码
- * 200 OK 请求处理成功并成功返回请求数据
- * 201 Created 请求创建的新资源已处理完成并返回新创建资源数据
- * 204 No Content 请求已被处理但是无需返回信息
+ * 200 OK GET获取资源、PUT修改资源
+ * 201 Created POST创建资源
+ * 204 No Content DELETE删除资源
  * 400 Bad Request 请求包含错误，例如参数错误
  * 403 Forbidden 请求已经收到但是请求者不具备权限
  * 404 Not Found 请求的内容不存在
- * 500 Internal Server Error 服务器存在错误，请联系服务提供者获取更多信息
+ * 500 Internal Server Error 服务器存在错误
  */
 
 module.exports = {
-    getOk: function (msg) {
-        return { msg: { msg_code: 200, msg_info: msg } };
+    responseOk: function (data, res) {
+        return res.ok(data);
     },
 
-    getCreate: function (msg) {
-        return { msg: { msg_code: 201, msg_info: msg } };
+    responseCreated: function (data, res) {
+        res.status(201);
+        return res.json(data);
     },
 
-    getNoContent: function () {
-        return {};
+    responseDeleted: function (msg, res) {
+        res.status(204);
+        return res.json({ msg: msg });
     },
 
-    getBadRequest: function (msg) {
-        return { msg: { msg_code: 400, msg_info: msg } };
+    responseBadRequest: function (msg, res) {
+        return res.badRequest({ msg: msg });
     },
 
-    getForbidden: function (msg) {
-        return { msg: { msg_code: 403, msg_info: msg } };
+    responseForbidden: function (msg, res) {
+        return res.forbidden({ msg: msg });
     },
-    
-    getNotFound: function (msg) {
-        return { msg: { msg_code: 404, msg_info: msg } };
+
+    responseNotFound: function (msg, res) {
+        return res.notFound({ msg: msg });
     },
-    
-    getInternalServerError: function (msg) {
-        return { msg: { msg_code: 500, msg_info: msg } };
+
+    responseServerError: function (msg, res) {
+        return res.serverError({ msg: msg });
     },
 }

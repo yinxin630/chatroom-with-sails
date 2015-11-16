@@ -1,27 +1,30 @@
 var ResponseUtil = require('../util/ResponseUtil');
 var ResponseInfo = require('../util/ResponseInfo');
+var SecurityUtil = require('../util/SecurityUtil');
+
+var DEFAULT_ROOM = 'default'
 
 module.exports = {
     create: function (req, res) {
         if (!req.isSocket) {
-            return res.badRequest(ResponseUtil.getBadRequest(ResponseInfo.USE_SOCKET));
+            return ResponseUtil.responseBadRequest(ResponseInfo.USE_SOCKET, res);
         }
-        var roomName = sails.sockets.socketRooms(req.socket)['1'];
-        if (roomName != 'default') {
-            return res.badRequest(ResponseUtil.getBadRequest(ResponseInfo.NOT_JOINED_ROOM));
+        var room = sails.sockets.socketRooms(req.socket)['1'];
+        if (room != DEFAULT_ROOM) {
+            return ResponseUtil.responseBadRequest(ResponseInfo.NOT_JOINED_ROOM, res);
         }
-        
-        var msg = req.param('msg').replace(/&/g, '&amp').replace(/\"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+        var msg = SecurityUtil.xssFilter(req.param('msg'));
         var nickName = req.param('nickName');
-        sails.sockets.broadcast('default', 'message', { msg: msg, nickName: nickName});
-        return res.ok(ResponseUtil.getOk(ResponseInfo.SEND_MESSAGE_SUCCESS));
+        sails.sockets.broadcast(DEFAULT_ROOM, 'message', { msg: msg, nickName: nickName });
+        return ResponseUtil.responseOk(ResponseInfo.SEND_MESSAGE_SUCCESS, res);
     },
-    
+
     find: function (req, res) {
         if (!req.isSocket) {
-            return res.badRequest(ResponseUtil.getBadRequest(ResponseInfo.USE_SOCKET));
+            return ResponseUtil.responseBadRequest(ResponseInfo.USE_SOCKET, res);
         }
-        sails.sockets.join(req.socket, 'default');
-        return res.ok(ResponseUtil.getOk(ResponseInfo.JOIN_ROOM_SUCCESS));
+        sails.sockets.join(req.socket, DEFAULT_ROOM);
+        return ResponseUtil.responseOk(ResponseInfo.JOIN_ROOM_SUCCESS, res);
     }
 }
