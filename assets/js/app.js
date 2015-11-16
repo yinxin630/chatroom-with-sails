@@ -45,31 +45,35 @@ $('#nickName').change(function () {
 });
 
 /**
+ * 页面初始化显示
+ */
+$(document).ready(function () {
+    dynamicResizing();
+});
+$(window).resize(function () {
+    dynamicResizing();
+});
+
+function dynamicResizing() {
+    $('.body').height(window.innerHeight - $('.header').outerHeight());
+    $('.message-form').outerHeight($('.body').height() - $('.input-form').outerHeight());
+    $('.chatform').width($(window).width() < 900 ? $(window).width() : $('.chatform').width());
+    $('.message-form').width($('.chatform').width());
+    $('.input-area').outerWidth($('.input-form').width());
+    $('.input-area-info').css('right', ($(window).width() - $('.chatform').width()) / 2 + 10);
+}
+
+/**
  * 客户端初始化连接
  */
 (function () {
-    var prevScrollTop = 0;
     /**
      * 注册消息处理函数
      */
     io.socket.on('message', function (msg) {
-        var messageData = msg.msg;
-        messageData = messageData.replace(/\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u2029)/g, '<br>');
-        messageData = messageData.replace(/  /g, '&nbsp');
-        messageData = messageData.replace(/\t/g, '&nbsp&nbsp');
-        var senderDiv = $('<div></div>').attr('class', 'message-sender').text(msg.nickName);
-        var contentDiv = $('<div></div>').attr('class', 'message-content').html(messageData);
-        var messageDiv = $('<div"></div>').attr('class', 'message').append(senderDiv).append(contentDiv);
-        $('#message-form').append(messageDiv);
-        var moreHeightthanMsgForm = messageDiv.outerHeight() - $('#message-form').outerHeight();
-        if ($('#message-form').children().length == 1 || $('#message-form').scrollTop() >= prevScrollTop) {
-            $('#message-form').animate({ scrollTop: messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + moreHeightthanMsgForm }, 200, function () {
-                prevScrollTop = $('#message-form').scrollTop();
-            });
-        }
-        else {
-            prevScrollTop = messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + moreHeightthanMsgForm;
-        }
+        var nickName = msg.nickName;
+        var msg = msg.msg;
+        addNewMessage(nickName, msg);
     });
 
     io.socket.on('connect', function () {
@@ -94,7 +98,7 @@ $('#nickName').change(function () {
                     success: function (resData) {
                         $('#nickName').val(resData.nickName);
                         $('#nickName').change();
-                        io.socket.get('/message');
+                        joinRoomAndGetMessage();
                     }
                 });
             },
@@ -102,7 +106,7 @@ $('#nickName').change(function () {
                 $('#nickName').val(resData.nickName);
                 $('#nickName').change();
                 $('.input-nickname').hide();
-                io.socket.get('/message');
+                joinRoomAndGetMessage();
             }
         });
         $('.disconnect-info').hide();
@@ -111,27 +115,38 @@ $('#nickName').change(function () {
     io.socket.on('disconnect', function () {
         $('.disconnect-info').show();
     });
-    
+
     $('#disconnect-animation').shCircleLoader();
 
 
 })();
 
-/**
- * 页面初始化显示
- */
-$(document).ready(function () {
-    dynamicResizing();
-});
-$(window).resize(function () {
-    dynamicResizing();
-});
+var prevScrollTop = 0;
+function addNewMessage(nickName, msg) {
+    msg = msg.replace(/\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u2029)/g, '<br>');
+    msg = msg.replace(/  /g, '&nbsp');
+    msg = msg.replace(/\t/g, '&nbsp&nbsp');
+    var senderDiv = $('<div></div>').attr('class', 'message-sender').text(nickName);
+    var contentDiv = $('<div></div>').attr('class', 'message-content').html(msg);
+    var messageDiv = $('<div"></div>').attr('class', 'message').append(senderDiv).append(contentDiv);
+    $('#message-form').append(messageDiv);
+    var moreHeightthanMsgForm = messageDiv.outerHeight() - $('#message-form').outerHeight();
+    if ($('#message-form').children().length == 1 || $('#message-form').scrollTop() >= prevScrollTop) {
+        $('#message-form').animate({ scrollTop: messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + moreHeightthanMsgForm }, 200, function () {
+            prevScrollTop = $('#message-form').scrollTop();
+        });
+    }
+    else {
+        prevScrollTop = messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + moreHeightthanMsgForm;
+    }
+}
 
-function dynamicResizing() {
-    $('.body').height(window.innerHeight - $('.header').outerHeight());
-    $('.message-form').outerHeight($('.body').height() - $('.input-form').outerHeight());
-    $('.chatform').width($(window).width() < 900 ? $(window).width() : $('.chatform').width());
-    $('.message-form').width($('.chatform').width());
-    $('.input-area').outerWidth($('.input-form').width());
-    $('.input-area-info').css('right', ($(window).width() - $('.chatform').width()) / 2 + 10);
+function joinRoomAndGetMessage() {
+    io.socket.get('/message', function (messageData, jwres) {
+        var messageTotal = messageData.messageTotal;
+        var messages = messageData.messages;
+        for (var i = 0; i < messageTotal; i++) {
+            addNewMessage(messages[i].nickName, messages[i].msg);
+        }
+    });
 }

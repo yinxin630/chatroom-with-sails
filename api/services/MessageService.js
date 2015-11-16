@@ -3,6 +3,7 @@ var ResponseInfo = require('../util/ResponseInfo');
 var SecurityUtil = require('../util/SecurityUtil');
 
 var DEFAULT_ROOM = 'default'
+var messageCache = [];
 
 module.exports = {
     create: function (req, res) {
@@ -17,6 +18,10 @@ module.exports = {
         var msg = SecurityUtil.xssFilter(req.param('msg'));
         var nickName = req.param('nickName');
         sails.sockets.broadcast(DEFAULT_ROOM, 'message', { msg: msg, nickName: nickName });
+        messageCache.push({ msg: msg, nickName: nickName });
+        if (messageCache.length > 50) {
+            messageCache.shift();
+        }
         return ResponseUtil.responseOk(ResponseInfo.SEND_MESSAGE_SUCCESS, res);
     },
 
@@ -25,6 +30,10 @@ module.exports = {
             return ResponseUtil.responseBadRequest(ResponseInfo.USE_SOCKET, res);
         }
         sails.sockets.join(req.socket, DEFAULT_ROOM);
-        return ResponseUtil.responseOk(ResponseInfo.JOIN_ROOM_SUCCESS, res);
+        var resData = {
+            messageTotal: messageCache.length,
+            messages: messageCache
+        }
+        return ResponseUtil.responseOk(resData, res);
     }
 }
