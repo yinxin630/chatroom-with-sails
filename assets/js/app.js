@@ -70,10 +70,11 @@ function dynamicResizing() {
     /**
      * 注册消息处理函数
      */
-    io.socket.on('message', function (msg) {
-        var nickName = msg.nickName;
-        var msg = msg.msg;
-        addNewMessage(nickName, msg);
+    io.socket.on('message', function (msgData) {
+        var nickName = msgData.nickName;
+        var msg = msgData.msg;
+        var time = msgData.time;
+        addNewMessage(nickName, time, msg, 200);
     });
 
     io.socket.on('connect', function () {
@@ -122,17 +123,17 @@ function dynamicResizing() {
 })();
 
 var prevScrollTop = 0;
-function addNewMessage(nickName, msg) {
-    msg = msg.replace(/\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u2029)/g, '<br>');
+function addNewMessage(nickName, time, msg, showSpeed) {
+    msg = msg.replace(/\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u0085\u2029)/g, '<br>');
     msg = msg.replace(/  /g, '&nbsp');
     msg = msg.replace(/\t/g, '&nbsp&nbsp');
-    var senderDiv = $('<div></div>').attr('class', 'message-sender').text(nickName);
+    var senderDiv = $('<div></div>').attr('class', 'message-sender').text(nickName).append('<span style="font-size:14px;"> - ' + time + '</span>');
     var contentDiv = $('<div></div>').attr('class', 'message-content').html(msg);
     var messageDiv = $('<div"></div>').attr('class', 'message').append(senderDiv).append(contentDiv);
     $('#message-form').append(messageDiv);
     var moreHeightthanMsgForm = messageDiv.outerHeight() - $('#message-form').outerHeight();
     if ($('#message-form').children().length == 1 || $('#message-form').scrollTop() >= prevScrollTop) {
-        $('#message-form').animate({ scrollTop: messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + moreHeightthanMsgForm }, 200, function () {
+        $('#message-form').animate({ scrollTop: messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + moreHeightthanMsgForm }, showSpeed, function () {
             prevScrollTop = $('#message-form').scrollTop();
         });
     }
@@ -146,7 +147,7 @@ function joinRoomAndGetMessage() {
         var messageTotal = messageData.messageTotal;
         var messages = messageData.messages;
         for (var i = 0; i < messageTotal; i++) {
-            addNewMessage(messages[i].nickName, messages[i].msg);
+            addNewMessage(messages[i].nickName, messages[i].time, messages[i].msg, 50);
         }
     });
 }

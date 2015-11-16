@@ -15,10 +15,13 @@ module.exports = {
             return ResponseUtil.responseBadRequest(ResponseInfo.NOT_JOINED_ROOM, res);
         }
 
-        var msg = SecurityUtil.xssFilter(req.param('msg'));
-        var nickName = req.param('nickName');
-        sails.sockets.broadcast(DEFAULT_ROOM, 'message', { msg: msg, nickName: nickName });
-        messageCache.push({ msg: msg, nickName: nickName });
+        var messageData = {
+            msg: SecurityUtil.xssFilter(req.param('msg')),
+            nickName: req.param('nickName'),
+            time: new Date().toLocaleTimeString(),
+        }
+        sails.sockets.broadcast(DEFAULT_ROOM, 'message', messageData);
+        messageCache.push(messageData);
         if (messageCache.length > 50) {
             messageCache.shift();
         }
