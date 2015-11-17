@@ -11,24 +11,29 @@ module.exports = {
             else if (!sessionResult) {
                 return ResponseUtil.responseNotFound(ResponseInfo.SESSION_NOT_EXISTS, res);
             }
-            
-            if (nickName == '') {
+
+            if (nickName == '' || nickName == sessionResult.user.nickName) {
                 var resData = {
                     nickName: sessionResult.user.nickName,
                 }
                 return ResponseUtil.responseOk(resData, res);
             }
-            
-            sessionResult.user.nickName = nickName;
-            sessionResult.user.save(function (err, userResult) {
-                if (err) {
-                    sails.log(err);
-                    return ResponseUtil.responseServerError(ResponseInfo.SERVER_ERROR, res);
+
+            User.findOne({ nickName: nickName }).exec(function (err, userResult) {
+                if (userResult) {
+                    nickName += '_';
                 }
-                var resData = {
-                    nickName: userResult.nickName,
-                }
-                return ResponseUtil.responseOk(resData, res);
+                sessionResult.user.nickName = nickName;
+                sessionResult.user.save(function (err, userResult) {
+                    if (err) {
+                        sails.log(err);
+                        return ResponseUtil.responseServerError(ResponseInfo.SERVER_ERROR, res);
+                    }
+                    var resData = {
+                        nickName: userResult.nickName,
+                    }
+                    return ResponseUtil.responseOk(resData, res);
+                });
             });
         });
     }
