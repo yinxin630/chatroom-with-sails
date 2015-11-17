@@ -146,6 +146,7 @@ function joinRoomAndGetMessage() {
     io.socket.get('/message', function (messageData, jwres) {
         var messageTotal = messageData.messageTotal;
         var messages = messageData.messages;
+        $('#message-form').empty();
         for (var i = 0; i < messageTotal; i++) {
             addNewMessage(messages[i].nickName, messages[i].time, messages[i].msg, 50);
         }
