@@ -60,5 +60,32 @@ module.exports = {
             };
             return ResponseUtil.responseOk(resData, res);
         })
+    },
+
+    /**
+     * 扫描所有Session数据，将过期数据删除
+     */
+    deleteOutOfDateSession: function () {
+        var now = new Date();
+        var maxAge = sails.config.session.cookie.maxAge;
+        Session.find().exec(function (err, sessionResults) {
+            sessionResults.map(function (sessionResult) {
+                if (now - sessionResult.createdAt > maxAge) {
+                    Session.destroy({ sessionId: sessionResult.sessionId }).populate('user').exec(function (err, sessionDeleted) {
+                        if (err) {
+                            sails.log(err);
+                            return;
+                        }
+                        User.destroy({ id: sessionDeleted[0].user }).exec(function (err, userDeleted) {
+                            if (err) {
+                                sails.log(err);
+                                return;
+                            }
+                            return;
+                        });
+                    })
+                }
+            });
+        });
     }
 }
