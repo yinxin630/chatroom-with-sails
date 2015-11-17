@@ -14,6 +14,12 @@ module.exports = {
             required: true,
         },
         
+        socketId: {
+            type: 'string',
+            required: true,
+            unique: true,
+        },
+        
         session: {
             model: 'session',
         }

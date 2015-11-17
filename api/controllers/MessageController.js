@@ -12,14 +12,11 @@ module.exports = {
      * @param nickName 发送此消息的用户昵称
      */
     create: function (req, res) {
-        MessageService.create(req, res);
+        var options = {
+            msg: req.param('msg', ''),
+            nickName: req.param('nickName', ''),
+        }
+        MessageService.create(options, res);
     },
-    
-    /**
-     * 开始获取房间消息
-     */
-    find: function (req, res) {
-        MessageService.find(req, res);
-    }
 };
 

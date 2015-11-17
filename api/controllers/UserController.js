@@ -11,9 +11,11 @@ module.exports = {
      * @param nickName 修改后的昵称
      */
     update: function (req, res) {
-        var session = req.session;
-        var nickName = req.param('nickName', '');
-        UserService.update(session, nickName, res);
+        var options = {
+            nickName: req.param('nickName', ''),
+            socket: req.socket,
+        }
+        UserService.update(options, res);
     },
 };
 
