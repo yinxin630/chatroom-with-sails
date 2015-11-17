@@ -19,9 +19,5 @@ module.exports = {
             required: true,
             unique: true,
         },
-        
-        session: {
-            model: 'session',
-        }
     }
 };

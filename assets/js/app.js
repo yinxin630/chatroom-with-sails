@@ -23,20 +23,10 @@ $('#edit-image').click(function () {
  * 修改昵称
  */
 $('#input-nickname-button').click(function () {
-    $.ajax({
-        url: '/user',
-        type: 'put',
-        data: {
-            nickName: $('#input-nickname-textbox').val(),
-        },
-        error: function (res) {
-            alert(res.responseJSON.msg);
-        },
-        success: function (resData) {
-            $('#nickName').val(resData.nickName);
-            $('#nickName').change();
-            $('.input-nickname').hide(1000);
-        }
+    io.socket.put('/user', { nickName: $('#input-nickname-textbox').val() }, function (resData, jwres) {
+        $('#nickName').val(resData.nickName);
+        $('#nickName').change();
+        $('.input-nickname').hide(1000);
     });
     $('#input-nickname-textbox').val('');
 });
@@ -78,38 +68,11 @@ function dynamicResizing() {
     });
 
     io.socket.on('connect', function () {
-        /**
-        * 判断用户是否已存在
-        * 1. 若不存在，调用接口创建会话
-        * 2. 已存在，设置页面隐藏域昵称为用户昵称
-        */
-        $.ajax({
-            url: '/session',
-            type: 'get',
-            error: function (req, err) {
-                $.ajax({
-                    url: '/session',
-                    type: 'post',
-                    data: {
-                        nickName: '',
-                    },
-                    error: function (res) {
-                        alert(res.responseJSON.msg);
-                    },
-                    success: function (resData) {
-                        $('#nickName').val(resData.nickName);
-                        $('#nickName').change();
-                        joinRoomAndGetMessage();
-                    }
-                });
-            },
-            success: function (resData) {
-                $('#nickName').val(resData.nickName);
-                $('#nickName').change();
-                $('.input-nickname').hide();
-                joinRoomAndGetMessage();
-            }
-        });
+        io.socket.post('/socket', { nickName: '' }, function (resData, jwres) {
+            $('#nickName').val(resData.nickName);
+            $('#nickName').change();
+        })
+
         $('.disconnect-info').hide();
     });
 
@@ -140,15 +103,4 @@ function addNewMessage(nickName, time, msg, showSpeed) {
     else {
         prevScrollTop = messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + moreHeightthanMsgForm;
     }
-}
-
-function joinRoomAndGetMessage() {
-    io.socket.get('/message', function (messageData, jwres) {
-        var messageTotal = messageData.messageTotal;
-        var messages = messageData.messages;
-        $('#message-form').empty();
-        for (var i = 0; i < messageTotal; i++) {
-            addNewMessage(messages[i].nickName, messages[i].time, messages[i].msg, 50);
-        }
-    });
 }

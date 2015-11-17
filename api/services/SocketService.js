@@ -13,7 +13,7 @@ module.exports = {
                 return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
             }
             
-            sails.socket.join(options.socket, ConstantUtil.DEFAULT_ROOM);
+            sails.sockets.join(options.socket, ConstantUtil.DEFAULT_ROOM);
             var resData = {
                 nickName: userResult.nickName,
             };
@@ -27,7 +27,7 @@ module.exports = {
                 sails.log(err);
                 return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
             }
-            sails.socket.leave(options.socket, ConstantUtil.DEFAULT_ROOM);
+            sails.sockets.leave(options.socket, ConstantUtil.DEFAULT_ROOM);
             return ResponseUtil.responseDeleted(ConstantUtil.DESTROY_SESSION_SUCCESS, res);
         });
     }
