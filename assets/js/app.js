@@ -24,11 +24,15 @@ $('#edit-image').click(function () {
  */
 $('#input-nickname-button').click(function () {
     io.socket.put('/user', { nickName: $('#input-nickname-textbox').val() }, function (resData, jwres) {
+        if (jwres.statusCode == 500) {
+            $('#input-nickname-textbox').val($('#input-nickname-textbox').val() + '_');
+            return $('#input-nickname-button').click();
+        }
         $('#nickName').val(resData.nickName);
         $('#nickName').change();
         $('.input-nickname').hide(1000);
+        $('#input-nickname-textbox').val('');
     });
-    $('#input-nickname-textbox').val('');
 });
 $('#nickName').change(function () {
     $('#user-nickname').text($('#nickName').val());
