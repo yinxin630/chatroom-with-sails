@@ -66,13 +66,19 @@ function dynamicResizing() {
         var time = msgData.time;
         addNewMessage(nickName, time, msg, 200);
     });
+    
+    io.socket.on('systemMessage', function (msgData) {
+        // alert('系统消息');
+        var msg = msgData.msg;
+        addNewSystemMessage(msg, 0);
+    });
 
     io.socket.on('connect', function () {
         io.socket.post('/socket', { nickName: $('#nickName').val() }, function (resData, jwres) {
             $('#nickName').val(resData.nickName);
             $('#nickName').change();
             
-            $('#message-form').empty();
+            // $('#message-form').empty();
             var messagesTotal = resData.messagesTotal;
             var messages = resData.messages;
             for (var i = 0; i < messagesTotal; i++) {
@@ -93,21 +99,31 @@ function dynamicResizing() {
 })();
 
 var prevScrollTop = 0;
+function scrollToNewElement(newElement, showSpeed) {
+    var moreHeightthanMsgForm = newElement.outerHeight() - $('#message-form').outerHeight();
+    if ($('#message-form').children().length == 1 || $('#message-form').scrollTop() >= prevScrollTop) {
+        $('#message-form').animate({ scrollTop: newElement.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + moreHeightthanMsgForm }, showSpeed, function () {
+            prevScrollTop = $('#message-form').scrollTop();
+        });
+    }
+    else {
+        prevScrollTop = newElement.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + moreHeightthanMsgForm;
+    }
+}
+
 function addNewMessage(nickName, time, msg, showSpeed) {
     msg = msg.replace(/\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u0085\u2029)/g, '<br>');
     msg = msg.replace(/  /g, '&nbsp');
     msg = msg.replace(/\t/g, '&nbsp&nbsp');
     var senderDiv = $('<div></div>').attr('class', 'message-sender').text(nickName).append('<span style="font-size:14px;"> - ' + time + '</span>');
     var contentDiv = $('<div></div>').attr('class', 'message-content').html(msg);
-    var messageDiv = $('<div"></div>').attr('class', 'message').append(senderDiv).append(contentDiv);
+    var messageDiv = $('<div></div>').attr('class', 'message').append(senderDiv).append(contentDiv);
     $('#message-form').append(messageDiv);
-    var moreHeightthanMsgForm = messageDiv.outerHeight() - $('#message-form').outerHeight();
-    if ($('#message-form').children().length == 1 || $('#message-form').scrollTop() >= prevScrollTop) {
-        $('#message-form').animate({ scrollTop: messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + moreHeightthanMsgForm }, showSpeed, function () {
-            prevScrollTop = $('#message-form').scrollTop();
-        });
-    }
-    else {
-        prevScrollTop = messageDiv.offset().top - $('#message-form').offset().top + $('#message-form').scrollTop() + moreHeightthanMsgForm;
-    }
+    scrollToNewElement(messageDiv, showSpeed);
+}
+
+function addNewSystemMessage(msg, showSpeed) {
+    var systemMessageDiv = $('<div></div>').attr('class', 'system-message').text(msg);
+    $('#message-form').append(systemMessageDiv);
+    scrollToNewElement(systemMessageDiv, showSpeed);
 }

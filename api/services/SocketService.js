@@ -13,13 +13,14 @@ module.exports = {
                 return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
             }
 
-            sails.sockets.join(options.socket, ConstantUtil.DEFAULT_ROOM);
             var messageCache = MessageService.getMessageCache();
             var resData = {
                 nickName: userResult.nickName,
                 messagesTotal: messageCache.length,
                 messages: messageCache,
             };
+            sails.sockets.broadcast(ConstantUtil.DEFAULT_ROOM, 'systemMessage', { msg: options.nickName + ' 加入房间' });
+            sails.sockets.join(options.socket, ConstantUtil.DEFAULT_ROOM);
             return ResponseUtil.responseCreated(resData, res);
         });
     },
@@ -31,6 +32,7 @@ module.exports = {
                 return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
             }
             sails.sockets.leave(socket, ConstantUtil.DEFAULT_ROOM);
+            sails.sockets.broadcast(ConstantUtil.DEFAULT_ROOM, 'systemMessage', { msg: userResults.nickName + ' 离开房间' });
         });
     }
 }
