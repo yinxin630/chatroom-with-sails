@@ -72,6 +72,7 @@ function dynamicResizing() {
             $('#nickName').val(resData.nickName);
             $('#nickName').change();
             
+            $('#message-form').empty();
             var messagesTotal = resData.messagesTotal;
             var messages = resData.messages;
             for (var i = 0; i < messagesTotal; i++) {
