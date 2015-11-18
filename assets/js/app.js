@@ -71,6 +71,12 @@ function dynamicResizing() {
         io.socket.post('/socket', { nickName: '' }, function (resData, jwres) {
             $('#nickName').val(resData.nickName);
             $('#nickName').change();
+            
+            var messagesTotal = resData.messagesTotal;
+            var messages = resData.messages;
+            for (var i = 0; i < messagesTotal; i++) {
+                addNewMessage(messages[i].nickName, messages[i].time, messages[i].msg, 0);
+            }
         })
 
         $('.disconnect-info').hide();

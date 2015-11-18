@@ -60,11 +60,4 @@ module.exports.policies = {
         'destroy': true,
         '*': false,
     },
-    
-    MessageController: {
-        'create': true,
-        "find": true,
-        '*': false,
-    }
-    
 };

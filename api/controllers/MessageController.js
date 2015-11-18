@@ -13,6 +13,7 @@ module.exports = {
      */
     create: function (req, res) {
         var options = {
+            socket: req.socket,
             msg: req.param('msg', ''),
             nickName: req.param('nickName', ''),
         }

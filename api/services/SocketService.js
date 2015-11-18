@@ -12,10 +12,13 @@ module.exports = {
                 sails.log(err);
                 return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
             }
-            
+
             sails.sockets.join(options.socket, ConstantUtil.DEFAULT_ROOM);
+            var messageCache = MessageService.getMessageCache();
             var resData = {
                 nickName: userResult.nickName,
+                messagesTotal: messageCache.length,
+                messages: messageCache,
             };
             return ResponseUtil.responseCreated(resData, res);
         });

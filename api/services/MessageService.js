@@ -18,10 +18,14 @@ module.exports = {
             time: new Date().toLocaleTimeString(),
         }
         sails.sockets.broadcast(ConstantUtil.DEFAULT_ROOM, 'message', messageData);
-        // messageCache.push(messageData);
-        // if (messageCache.length > 50) {
-        //     messageCache.shift();
-        // }
+        messageCache.push(messageData);
+        if (messageCache.length > 50) {
+            messageCache.shift();
+        }
         return ResponseUtil.responseOk(ConstantUtil.SEND_MESSAGE_SUCCESS, res);
+    },
+    
+    getMessageCache: function () {
+        return messageCache;  
     },
 }
