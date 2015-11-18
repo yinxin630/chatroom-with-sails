@@ -13,7 +13,6 @@ module.exports = {
                 return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
             }
 
-            sails.log.info('on conn.', options.socket.id);
             sails.sockets.join(options.socket, ConstantUtil.DEFAULT_ROOM);
             var messageCache = MessageService.getMessageCache();
             var resData = {

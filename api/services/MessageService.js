@@ -6,7 +6,6 @@ var messageCache = [];
 
 module.exports = {
     create: function (options, res) {
-        sails.log.info('收到消息', options.socket.id);
         var room = sails.sockets.socketRooms(options.socket)['1'];
         if (room != ConstantUtil.DEFAULT_ROOM) {
             return ResponseUtil.responseBadRequest(ConstantUtil.NOT_JOINED_ROOM, res);

@@ -125,7 +125,6 @@ module.exports.sockets = {
 
     afterDisconnect: function (session, socket, cb) {
         if (session.cookie) {
-            sails.log.info('on disconn.', socket.id);
             SocketService.destroy(socket);
         }
         return cb();
