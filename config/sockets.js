@@ -122,13 +122,12 @@ module.exports.sockets = {
     * disconnects                                                              *
     *                                                                          *
     ***************************************************************************/
-    onConnect: function (session, socket) {
-        if (session.cookie)
-            sails.log.info('on connect.', socket.id);
-    },
 
     afterDisconnect: function (session, socket, cb) {
-        sails.log.info('on disconn.', socket.id);
+        if (session.cookie) {
+            sails.log.info('on disconn.', socket.id);
+            SocketService.destroy(socket);
+        }
         return cb();
     },
 

@@ -19,7 +19,6 @@ module.exports = {
                 return ResponseUtil.responseOk(resData, res);
             }
 
-
             userResult.nickName = options.nickName;
             userResult.save(function (err, newUserResult) {
                 if (err) {
@@ -27,10 +26,10 @@ module.exports = {
                     return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
                 }
                 var resData = {
-                    nickName: newUserResult.nickName,
+                    nickName: options.nickName,
                 }
                 return ResponseUtil.responseOk(resData, res);
             });
         });
-    }
+    },
 }

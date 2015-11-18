@@ -13,12 +13,5 @@ module.exports = {
         }
         SocketService.create(options, res);
     },
-
-    destroy: function (req, res) {
-        var options = {
-            socket: req.socket,
-        }
-        SocketService.destroy(options, res);
-    }
 };
 

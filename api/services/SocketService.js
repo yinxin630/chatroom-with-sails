@@ -13,6 +13,7 @@ module.exports = {
                 return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
             }
 
+            sails.log.info('on conn.', options.socket.id);
             sails.sockets.join(options.socket, ConstantUtil.DEFAULT_ROOM);
             var messageCache = MessageService.getMessageCache();
             var resData = {
@@ -24,14 +25,13 @@ module.exports = {
         });
     },
 
-    destroy: function (options, res) {
-        User.destroy({ socketId: options.socket.id }).exec(function (err, userResult) {
+    destroy: function (socket) {
+        User.destroy({ socketId: socket.id }).exec(function (err, userResults) {
             if (err) {
                 sails.log(err);
                 return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
             }
-            sails.sockets.leave(options.socket, ConstantUtil.DEFAULT_ROOM);
-            return ResponseUtil.responseDeleted(ConstantUtil.DESTROY_SESSION_SUCCESS, res);
+            sails.sockets.leave(socket, ConstantUtil.DEFAULT_ROOM);
         });
     }
 }

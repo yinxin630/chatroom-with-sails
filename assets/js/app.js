@@ -68,7 +68,7 @@ function dynamicResizing() {
     });
 
     io.socket.on('connect', function () {
-        io.socket.post('/socket', { nickName: '' }, function (resData, jwres) {
+        io.socket.post('/socket', { nickName: $('#nickName').val() }, function (resData, jwres) {
             $('#nickName').val(resData.nickName);
             $('#nickName').change();
             
