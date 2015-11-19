@@ -150,7 +150,7 @@ function filterUrl(msg) {
     var strRegex = /(http:\/\/)?([A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\'\" ])*)/g;
     var re = new RegExp(strRegex);
     msg = msg.replace(re, function (a, b, c) {
-        return '<a href="http://' + c + '">' + a + '</a>';
+        return '<a href="http://' + c + '" target="_blank">' + a + '</a>';
     });
     return msg;
 }
