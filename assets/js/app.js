@@ -68,7 +68,6 @@ function dynamicResizing() {
     });
     
     io.socket.on('systemMessage', function (msgData) {
-        // alert('系统消息');
         var msg = msgData.msg;
         addNewSystemMessage(msg, 0);
     });
@@ -78,7 +77,7 @@ function dynamicResizing() {
             $('#nickName').val(resData.nickName);
             $('#nickName').change();
             
-            // $('#message-form').empty();
+            $('#message-form').empty();
             var messagesTotal = resData.messagesTotal;
             var messages = resData.messages;
             for (var i = 0; i < messagesTotal; i++) {
