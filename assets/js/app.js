@@ -23,7 +23,7 @@ $('#edit-image').click(function () {
  * 修改昵称
  */
 $('#input-nickname-button').click(function () {
-    io.socket.put('/user', { nickName: $('#input-nickname-textbox').val() }, function (resData, jwres) {
+    io.socket.put('/user', { nickName: $.trim($('#input-nickname-textbox').val()) }, function (resData, jwres) {
         if (jwres.statusCode == 500) {
             $('#input-nickname-textbox').val($('#input-nickname-textbox').val() + '_');
             $('#input-nickname-button').click();
@@ -78,7 +78,7 @@ function dynamicResizing() {
     });
 
     io.socket.on('connect', function connectServer() {
-        io.socket.post('/socket', { nickName: $('#nickName').val() }, function (resData, jwres) {
+        io.socket.post('/socket', { nickName: $.trim($('#nickName').val()) }, function (resData, jwres) {
             if (jwres.statusCode == 500) {
                 $('#nickName').val($('#nickName').val() + '_');
                 connectServer();
