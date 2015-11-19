@@ -29,7 +29,10 @@ module.exports = {
         User.destroy({ socketId: socket.id }).exec(function (err, userResults) {
             if (err) {
                 sails.log(err);
-                return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
+                return;
+            }
+            if (userResults.length == 0) {
+                return;
             }
             sails.sockets.leave(socket, ConstantUtil.DEFAULT_ROOM);
             sails.sockets.broadcast(ConstantUtil.DEFAULT_ROOM, 'systemMessage', { msg: userResults[0].nickName + ' 离开房间' });

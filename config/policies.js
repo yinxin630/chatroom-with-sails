@@ -48,16 +48,4 @@ module.exports.policies = {
 		// before letting any users feed our rabbits
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
 	// }
-    
-    UserController: {
-        'update': true,
-        '*': false,
-    },
-    
-    SessionController: {
-        'find': true,
-        'create': true,
-        'destroy': true,
-        '*': false,
-    },
 };
