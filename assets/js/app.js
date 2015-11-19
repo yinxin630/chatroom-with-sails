@@ -79,9 +79,10 @@ function dynamicResizing() {
 
     io.socket.on('connect', function connectServer() {
         io.socket.post('/socket', { nickName: $('#nickName').val() }, function (resData, jwres) {
-            if (jwres.responseCode == 500) {
+            if (jwres.statusCode == 500) {
                 $('#nickName').val($('#nickName').val() + '_');
-                return connectServer();
+                connectServer();
+                return;
             }
 
             $('#nickName').val(resData.nickName);
