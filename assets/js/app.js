@@ -24,6 +24,11 @@ $('#edit-image').click(function () {
  */
 $('#input-nickname-button').click(function () {
     io.socket.put('/user', { nickName: $('#input-nickname-textbox').val() }, function (resData, jwres) {
+        if (jwres.statusCode == 500) {
+            $('#input-nickname-textbox').val($('#input-nickname-textbox').val() + '_');
+            $('#input-nickname-button').click();
+            return;
+        }
         $('#nickName').val(resData.nickName);
         $('#nickName').change();
         $('.input-nickname').hide(1000);
@@ -66,17 +71,22 @@ function dynamicResizing() {
         var time = msgData.time;
         addNewMessage(nickName, time, msg, 200);
     });
-    
+
     io.socket.on('systemMessage', function (msgData) {
         var msg = msgData.msg;
         addNewSystemMessage(msg, 0);
     });
 
-    io.socket.on('connect', function () {
+    io.socket.on('connect', function connectServer() {
         io.socket.post('/socket', { nickName: $('#nickName').val() }, function (resData, jwres) {
+            if (jwres.responseCode == 500) {
+                $('#nickName').val($('#nickName').val() + '_');
+                return connectServer();
+            }
+
             $('#nickName').val(resData.nickName);
             $('#nickName').change();
-            
+
             $('#message-form').empty();
             var messagesTotal = resData.messagesTotal;
             var messages = resData.messages;
@@ -97,6 +107,7 @@ function dynamicResizing() {
 
 })();
 
+//消息处理相关函数
 var prevScrollTop = 0;
 function scrollToNewElement(newElement, showSpeed) {
     var moreHeightthanMsgForm = newElement.outerHeight() - $('#message-form').outerHeight();
@@ -111,9 +122,8 @@ function scrollToNewElement(newElement, showSpeed) {
 }
 
 function addNewMessage(nickName, time, msg, showSpeed) {
-    msg = msg.replace(/\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u0085\u2029)/g, '<br>');
-    msg = msg.replace(/  /g, '&nbsp');
-    msg = msg.replace(/\t/g, '&nbsp&nbsp');
+    msg = filterBlankSymbol(msg);
+    msg = filterUrl(msg);
     var senderDiv = $('<div></div>').attr('class', 'message-sender').text(nickName).append('<span style="font-size:14px;"> - ' + time + '</span>');
     var contentDiv = $('<div></div>').attr('class', 'message-content').html(msg);
     var messageDiv = $('<div></div>').attr('class', 'message').append(senderDiv).append(contentDiv);
@@ -125,4 +135,21 @@ function addNewSystemMessage(msg, showSpeed) {
     var systemMessageDiv = $('<div></div>').attr('class', 'system-message').text(msg);
     $('#message-form').append(systemMessageDiv);
     scrollToNewElement(systemMessageDiv, showSpeed);
+}
+
+//消息过滤相关函数
+function filterBlankSymbol(msg) {
+    msg = msg.replace(/\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u0085\u2029)/g, '<br>');
+    msg = msg.replace(/  /g, '&nbsp');
+    msg = msg.replace(/\t/g, '&nbsp&nbsp');
+    return msg;
+}
+
+function filterUrl(msg) {
+    var strRegex = /(http:\/\/)?([A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\'\" ])*)/g;
+    var re = new RegExp(strRegex);
+    msg = msg.replace(re, function (a, b, c) {
+        return '<a href="http://' + c + '">' + a + '</a>';
+    });
+    return msg;
 }

@@ -9,7 +9,7 @@ module.exports = {
 
         User.create({ nickName: options.nickName, socketId: options.socket.id }).exec(function (err, userResult) {
             if (err) {
-                sails.log(err);
+                sails.log(err.toString());
                 return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
             }
 
@@ -32,7 +32,7 @@ module.exports = {
                 return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
             }
             sails.sockets.leave(socket, ConstantUtil.DEFAULT_ROOM);
-            sails.sockets.broadcast(ConstantUtil.DEFAULT_ROOM, 'systemMessage', { msg: userResults.nickName + ' 离开房间' });
+            sails.sockets.broadcast(ConstantUtil.DEFAULT_ROOM, 'systemMessage', { msg: userResults[0].nickName + ' 离开房间' });
         });
     }
 }

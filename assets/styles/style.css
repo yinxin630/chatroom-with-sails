@@ -103,6 +103,7 @@ body {
     display: table;
     font-size: 14px;
     font-weight: bold;
+    margin-bottom: 20px;
 }
 
 .message-sender{

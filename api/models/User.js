@@ -12,6 +12,7 @@ module.exports = {
             type: 'string',
             size: 16,
             required: true,
+            unique: true,
         },
         
         socketId: {
