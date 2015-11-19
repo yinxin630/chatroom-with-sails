@@ -39,10 +39,6 @@ $('#nickName').change(function () {
     $('#user-nickname').text($('#nickName').val());
 });
 
-window.onbeforeunload = function () {
-    io.socket.delete('/socket', {}, function (resData, jwres) {
-    });
-};
 
 /**
  * 页面初始化显示
