@@ -41,7 +41,6 @@ $('#nickName').change(function () {
 
 window.onbeforeunload = function () {
     io.socket.delete('/socket', {}, function (resData, jwres) {
-        alert('unload.');
     });
 };
 
@@ -129,6 +128,7 @@ function scrollToNewElement(newElement, showSpeed) {
 }
 
 function addNewMessage(nickName, time, msg, showSpeed) {
+    msg = filterExpression(msg);
     msg = filterBlankSymbol(msg);
     msg = filterUrl(msg);
     var senderDiv = $('<div></div>').attr('class', 'message-sender').text(nickName).append('<span style="font-size:14px;"> - ' + time + '</span>');
@@ -157,6 +157,15 @@ function filterUrl(msg) {
     var re = new RegExp(strRegex);
     msg = msg.replace(re, function (a, b, c) {
         return '<a href="http://' + c + '" target="_blank">' + a + '</a>';
+    });
+    return msg;
+}
+
+function filterExpression(msg) {
+    var strRegex = /#\([\u4E00-\u9FA5]+?\)/g;
+    var re = new RegExp(strRegex);
+    msg = msg.replace(re, function (a, b, c) {
+        return '<img src="../images/expression/' + a.slice(2, a.length - 1) + '.png" style="width:30px;vertical-align: text-bottom;"></img>';
     });
     return msg;
 }
