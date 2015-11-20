@@ -39,6 +39,15 @@ $('#nickName').change(function () {
     $('#user-nickname').text($('#nickName').val());
 });
 
+var hadInitExpressionSelectForm = false;
+$('#tool-button').click(function () {
+    if (!hadInitExpressionSelectForm) {
+        initExpressionSelectForm();
+        hadInitExpressionSelectForm = true;
+    }
+    $('.expression-select-form').show();
+});
+
 
 /**
  * 页面初始化显示
@@ -58,9 +67,12 @@ function dynamicResizing() {
     $('.message-form').width($('.chatform').width());
     $('.input-area').outerWidth($('.input-form').width());
     $('.input-area-info').css('right', ($(window).width() - $('.chatform').width()) / 2 + 10);
+    $('.expression-select-form').css('bottom', $('.input-form').outerHeight());
+    $('.expression-select-form').css('left', $('#chatform').css('margin-left'));
 }
 
-function insertAtCursor(myField, myValue) {
+function insertAtCursor(myValue) {
+    myField = document.getElementById('message');
     //IE support
     if (document.selection) {
         myField.focus();
@@ -85,6 +97,23 @@ function insertAtCursor(myField, myValue) {
     } else {
         myField.value += myValue;
         myField.focus();
+    }
+}
+
+function initExpressionSelectForm() {
+    var expressionSelectForm = $('.expression-select-form').children('table');
+    var trElement;
+    for (var i = 0; i < 45; i++) {
+        if (i % 10 == 0) {
+            trElement = $('<tr></tr>');
+        }
+        trElement.append($('<td style="background-image:url(\'images/expression/' + (i + 1) + '.png\');background-size:50px 50px;" onClick="insertAtCursor(\'#(' + (i + 1) + ')\');$(\'.expression-select-form\').hide()"></td>'));
+        if (i % 10 == 9) {
+            expressionSelectForm.append(trElement);
+        }
+    }
+    if (i % 10 != 9) {
+        expressionSelectForm.append(trElement);
     }
 }
 
@@ -187,7 +216,7 @@ function filterUrl(msg) {
 }
 
 function filterExpression(msg) {
-    var strRegex = /#\([\u4E00-\u9FA5]+?\)/g;
+    var strRegex = /#\([0-9]+?\)/g;
     var re = new RegExp(strRegex);
     msg = msg.replace(re, function (a, b, c) {
         return '<img src="../images/expression/' + a.slice(2, a.length - 1) + '.png" style="width:30px;vertical-align: text-bottom;" onerror="this.style.display=\'none\'"></img>';

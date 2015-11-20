@@ -21,15 +21,13 @@
             <div class="message-form" id="message-form">
             </div>
             <div class="input-form">
+                <div class="tool-button-form">
+                    <button id="tool-button" style="background-image:url('image/expression/滑稽.png')"></button>
+                </div>
                 <textarea class="input-area" id="message" placeholder="请输入消息" maxlength="4096"></textarea>
                 <span class="input-area-info">Enter发送 Shift+Enter换行</span>
             </div>
         </div>
-    </div>
-    
-    <div class="disconnect-info">
-        <span style="color:snow">您已经离线，请检查网络并等待重连</span>
-        <div id="disconnect-animation"></div>
     </div>
     
     <div class="input-nickname">
@@ -38,6 +36,16 @@
             <input type="text" placeholder="昵称" id="input-nickname-textbox" maxlength="16">
             <button id="input-nickname-button">确定</button>
         </div>
+    </div>
+    
+    <div class="disconnect-info">
+        <span style="color:snow">您已经离线，请检查网络并等待重连</span>
+        <div id="disconnect-animation"></div>
+    </div>
+    
+    <div class="expression-select-form">
+        <table border="1" cellspacing="0" style="border-collapse:collapse;">
+        </table>
     </div>
     
     <input type="hidden" id="nickName">

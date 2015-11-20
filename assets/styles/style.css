@@ -70,6 +70,19 @@ body {
     padding-top: 20px;
 }
 
+.tool-button-form {
+    height: 30px;
+    background-color: snow;
+}
+
+.tool-button {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    background-size: 30px 30px;
+}
+
 .input-area {
     height: 70px;
     border-bottom-left-radius: 20px;
@@ -144,4 +157,15 @@ body {
     height: 100px;
     margin: 30px 45%;
     
+}
+
+.expression-select-form {
+    position: absolute;
+}
+
+td {
+    width: 50px;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-size: 50px 50px;
 }
