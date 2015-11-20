@@ -161,7 +161,7 @@ function filterExpression(msg) {
     var strRegex = /#\([\u4E00-\u9FA5]+?\)/g;
     var re = new RegExp(strRegex);
     msg = msg.replace(re, function (a, b, c) {
-        return '<img src="../images/expression/' + a.slice(2, a.length - 1) + '.png" style="width:30px;vertical-align: text-bottom;"></img>';
+        return '<img src="../images/expression/' + a.slice(2, a.length - 1) + '.png" style="width:30px;vertical-align: text-bottom;" onerror="this.style.display=\'none\'"></img>';
     });
     return msg;
 }

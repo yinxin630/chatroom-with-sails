@@ -34,7 +34,6 @@ module.exports = {
             if (userResults.length == 0) {
                 return;
             }
-            sails.log.info('离开房间。', userResults[0]);
             sails.sockets.leave(socket, ConstantUtil.DEFAULT_ROOM);
             sails.sockets.broadcast(ConstantUtil.DEFAULT_ROOM, 'systemMessage', { msg: userResults[0].nickName + ' 离开房间' });
         });
