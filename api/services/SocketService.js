@@ -19,7 +19,7 @@ module.exports = {
                 messagesTotal: messageCache.length,
                 messages: messageCache,
             };
-            sails.sockets.broadcast(ConstantUtil.DEFAULT_ROOM, 'systemMessage', { msg: options.nickName + ' 加入房间' });
+            sails.sockets.broadcast(ConstantUtil.DEFAULT_ROOM, 'systemMessage', { msg: new Date().toTimeString().slice(0, 8) + ' ' + options.nickName + ' 加入房间' });
             sails.sockets.join(options.socket, ConstantUtil.DEFAULT_ROOM);
             return ResponseUtil.responseCreated(resData, res);
         });
@@ -35,7 +35,7 @@ module.exports = {
                 return;
             }
             sails.sockets.leave(socket, ConstantUtil.DEFAULT_ROOM);
-            sails.sockets.broadcast(ConstantUtil.DEFAULT_ROOM, 'systemMessage', { msg: userResults[0].nickName + ' 离开房间' });
+            sails.sockets.broadcast(ConstantUtil.DEFAULT_ROOM, 'systemMessage', { msg: new Date().toTimeString().slice(0, 8) + ' ' + userResults[0].nickName + ' 离开房间' });
         });
     }
 }
