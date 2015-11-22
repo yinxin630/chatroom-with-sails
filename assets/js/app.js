@@ -40,12 +40,17 @@ $('#nickName').change(function () {
 });
 
 var hadInitExpressionSelectForm = false;
-$('#tool-button').click(function () {
+$('#expression-button').click(function () {
     if (!hadInitExpressionSelectForm) {
         initExpressionSelectForm();
         hadInitExpressionSelectForm = true;
     }
-    $('.expression-select-form').show();
+    if ($('.expression-select-form').css('display') !== 'none') {
+        $('.expression-select-form').hide();
+    }
+    else {
+        $('.expression-select-form').show();
+    }
 });
 
 

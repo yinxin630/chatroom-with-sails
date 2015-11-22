@@ -78,9 +78,10 @@ body {
 .tool-button {
     width: 30px;
     height: 30px;
-    background-repeat: no-repeat;
-    background-position: 0px 0px;
-    background-size: 30px 30px;
+    background-size: 28px 28px;
+    padding: 0px;
+    margin: 0px;
+    border-width: 1px;
 }
 
 .input-area {
@@ -161,6 +162,7 @@ body {
 
 .expression-select-form {
     position: absolute;
+    display: none;
 }
 
 td {
@@ -169,3 +171,4 @@ td {
     background-repeat: no-repeat;
     background-size: 50px 50px;
 }
+
