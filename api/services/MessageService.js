@@ -14,7 +14,7 @@ module.exports = {
         var messageData = {
             msg: SecurityUtil.xssFilter(options.msg),
             nickName: options.nickName,
-            time: new Date().toLocaleTimeString(),
+            time: new Date().toTimeString(),
         }
         sails.sockets.broadcast(ConstantUtil.DEFAULT_ROOM, 'message', messageData);
         messageCache.push(messageData);
