@@ -103,7 +103,7 @@ function insertAtCursor(myValue) {
 function initExpressionSelectForm() {
     var expressionSelectForm = $('.expression-select-form').children('table');
     var trElement;
-    for (var i = 0; i < 45; i++) {
+    for (var i = 0; i < 44; i++) {
         if (i % 10 == 0) {
             trElement = $('<tr></tr>');
         }
