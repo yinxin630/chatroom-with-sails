@@ -17,8 +17,8 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.4.0/css/amazeui.min.css"/>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.min.js"></script>
+	<script src="js/dependencies/react.min.js"></script>
+	<script src="js/dependencies/browser.min.js"></script>
 	<script src="http://cdn.amazeui.org/amazeui-react/1.0.0-beta1/amazeui.react.js"></script>	
 </head>
 <body>
@@ -28,6 +28,22 @@
 var PHONE_SCREEN_WIDTH = 480;
 var PAD_SCREEN_WIDTH = 960;
 var MIDDLE_PC_SCREEN_WIDTH = 1366;
+
+var Header = AMUIReact.Header;
+
+var HeadForm = React.createClass({
+	render: function() {
+		var staticHeadStyle = {
+			'height': 60,
+		};
+		return (
+			<div>
+				<div style={staticHeadStyle}></div>
+				<Header title="轻聊"></Header>
+			</div>
+		);
+	}
+});
 
 var MainForm = React.createClass({
 	getDefaultProps: function() {
@@ -63,9 +79,13 @@ var MainForm = React.createClass({
 	},
 	
 	render: function() {
+		var mainFormStyle = {
+			'width': this.state.viewport.width,
+			'height': this.state.viewport.height,
+		};
 		return (
-			<div>
-				
+			<div style={mainFormStyle}>
+				<HeadForm />
 			</div>
 		);
 	}
