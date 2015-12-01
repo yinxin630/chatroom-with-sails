@@ -30,16 +30,143 @@ var PAD_SCREEN_WIDTH = 960;
 var MIDDLE_PC_SCREEN_WIDTH = 1366;
 
 var Header = AMUIReact.Header;
+var Image = AMUIReact.Image;
 
-var HeadForm = React.createClass({
+var Message = React.createClass({
 	render: function() {
-		var staticHeadStyle = {
-			'height': 60,
+		var messageStyle = {
+			'margin': '0px 30px',
+		};
+		var avatarStyle = {
+			'float': 'left',
+			'margin': '10px',
+		};
+		var messageInfoContainerStyle = {
+			'margin-left': 60,
+			'color': 'snow',
+		};
+		var messageContentContainerStyle = {
+			'margin': '0px 60px',
+			'background-color': 'rgba(230,230,230,0.8)',
+			'word-brea': 'normal',
+   	 		'word-wrap': 'break-word',
+			'padding': '10px',
+			'border-radius': '10px',
 		};
 		return (
+			<div style={messageStyle}>
+				<div style={avatarStyle}>
+					<Image src="images/head.png" width="40px" height="40px" circle></Image>
+				</div>
+				<div style={messageInfoContainerStyle}>
+					<span>碎碎酱</span>
+					<span>11:11:11</span>
+				</div>
+				<div style={messageContentContainerStyle}>
+					<span>大家好，我是新人。放假啊离开圣诞节发了快速的减肥拉快速的减肥了哈上看到了放假啊啦可是对方就阿拉山口地方就阿拉山口地方就阿拉山口地方<br/>666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666</span>
+				</div>
+			</div>
+		);
+	}
+});
+var InputForm = React.createClass({
+	render: function() {
+		var textareaContainerStyle = {
+			'width': this.props.width,
+			'height': this.props.height,
+		};
+		var textareaStyle = {
+			'width': this.props.width,
+			'height': this.props.height,
+			'background-color': 'rgba(0,0,0,0.5)',
+			'border-bottom-left-radius': 10,
+    		'border-bottom-right-radius': 10,
+			'color': 'snow',
+			'padding': 10,
+		};
+		return (
+			<div style={textareaContainerStyle}>
+				<textarea style={textareaStyle}></textarea>
+			</div>
+		);
+	}
+});
+var HeadForm = React.createClass({
+	render: function() {
+		var pcHeadStyle = {
+			'height': this.props.height,
+			'background-color': 'black',
+		};
+		var pcHeadElementContainerStyle = {
+			'height': this.props.height,
+			'max-width': 1366 * 0.618,
+			'margin': '0 auto',
+		};
+		var productInfoStyle = {
+			'font-size': 30,
+			'margin-left': 50,
+			'color': 'snow',
+		};
+		var userInfoStyle = {
+			'font-size': 16,
+			'margin-right': 50,
+			'float': 'right',
+			'color': 'snow',
+			'margin-top': 20,
+		};
+		
+		
+		return (
 			<div>
-				<div style={staticHeadStyle}></div>
-				<Header title="轻聊"></Header>
+				<div style={pcHeadStyle}>
+					<div style={pcHeadElementContainerStyle}>
+						<span style={productInfoStyle}>轻聊</span>
+						<span style={userInfoStyle}>碎碎酱</span>
+					</div>
+				</div>
+			</div>
+		);
+	}
+});
+
+var BodyForm = React.createClass({
+	getDefaultProps: function() {
+		return {
+			toolbarFormHeight: 30,
+			inputFormHeight: 80,
+		};
+	},
+	render: function() {
+		var bodyStyle = {
+			'width': this.props.width,
+			'height': this.props.height,
+			'background-image': 'url("images/react-background.png")',
+		};
+		var chatFormStyle = {
+			'max-width': 1366 * 0.618,
+			'height': this.props.height,
+			'margin': '0px auto',
+			'background-color': 'rgba(0,0,0,0.5)',
+			'border-bottom-left-radius': 10,
+    		'border-bottom-right-radius': 10,
+		};
+		var messageFormStyle = {
+			'height': this.props.height - this.props.toolbarFormHeight - this.props.inputFormHeight,
+		};
+		var toolbarFormStyle = {
+			'height': this.props.toolbarFormHeight,
+			'background-color': 'rgba(153,153,153,0.5)',
+		};
+		
+		return (
+			<div style={bodyStyle}>
+				<div style={chatFormStyle}>
+					<div style={messageFormStyle}>
+						<Message avatar="images/head.png" nickname="碎碎酱" time="11:11:11" message="大家好，我是新人。"></Message>
+					</div>
+					<div style={toolbarFormStyle}></div>
+					<InputForm width={this.props.width < chatFormStyle['max-width'] ? this.props.width : chatFormStyle['max-width']} height={this.props.inputFormHeight}></InputForm>
+				</div>
 			</div>
 		);
 	}
@@ -55,8 +182,8 @@ var MainForm = React.createClass({
 	getInitialState: function() {
 		return {
 			viewport: {
-				width: document.documentElement.clientWidth,
-				height: document.documentElement.clientHeight
+				width: window.innerWidth,
+				height: window.innerHeight
 			}
 		};
 	},
@@ -64,8 +191,8 @@ var MainForm = React.createClass({
 	handleViewPortResize: function() {
 		this.setState({
 			viewport: {
-				width: document.documentElement.clientWidth,
-				height: document.documentElement.clientHeight
+				width: window.innerWidth,
+				height: window.innerHeight
 			}
 		});
 	},
@@ -83,9 +210,11 @@ var MainForm = React.createClass({
 			'width': this.state.viewport.width,
 			'height': this.state.viewport.height,
 		};
+		var headFormHeight = 50;
 		return (
 			<div style={mainFormStyle}>
-				<HeadForm />
+				<HeadForm width={this.state.viewport.width} height={headFormHeight}/>
+				<BodyForm width={this.state.viewport.width} height = {this.state.viewport.height - headFormHeight}/>
 			</div>
 		);
 	}
