@@ -120,7 +120,14 @@ var ExpressionSelectForm = React.createClass({
 	},
 	//处理表情选择事件
 	handleClick: function(event) {
-		console.log(event.nativeEvent.target.currentSrc);
+		var expressionId = 0;
+		if (event.nativeEvent.target.toString() == '[object HTMLImageElement]') {
+			expressionId = event.target.id;
+		}
+		else {
+			expressionId = event.target.children[0].id;
+		}
+		PubSub.publishSync('expression-click', {id: expressionId});
 	},
 	render: function() {
 		var expressionContainerStyle = {
@@ -154,58 +161,58 @@ var ExpressionSelectForm = React.createClass({
 			<div style={expressionContainerStyle}>
 				<table>
 					<tr>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/1.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/2.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/3.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/4.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/5.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/6.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/7.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/8.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/9.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/10.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={1} style={imgStyle} src="images/expression/1.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={2} style={imgStyle} src="images/expression/2.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={3} style={imgStyle} src="images/expression/3.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={4} style={imgStyle} src="images/expression/4.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={5} style={imgStyle} src="images/expression/5.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={6} style={imgStyle} src="images/expression/6.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={7} style={imgStyle} src="images/expression/7.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={8} style={imgStyle} src="images/expression/8.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={9} style={imgStyle} src="images/expression/9.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={10} style={imgStyle} src="images/expression/10.png"></img></td>
 					</tr>
 					<tr>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/11.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/12.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/13.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/14.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/15.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/16.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/17.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/18.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/19.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/20.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={11} style={imgStyle} src="images/expression/11.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={12} style={imgStyle} src="images/expression/12.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={13} style={imgStyle} src="images/expression/13.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={14} style={imgStyle} src="images/expression/14.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={15} style={imgStyle} src="images/expression/15.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={16} style={imgStyle} src="images/expression/16.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={17} style={imgStyle} src="images/expression/17.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={18} style={imgStyle} src="images/expression/18.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={19} style={imgStyle} src="images/expression/19.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={20} style={imgStyle} src="images/expression/20.png"></img></td>
 					</tr>
 					<tr>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/21.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/22.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/23.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/24.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/25.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/26.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/27.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/28.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/29.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/30.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={21} style={imgStyle} src="images/expression/21.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={22} style={imgStyle} src="images/expression/22.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={23} style={imgStyle} src="images/expression/23.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={24} style={imgStyle} src="images/expression/24.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={25} style={imgStyle} src="images/expression/25.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={26} style={imgStyle} src="images/expression/26.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={27} style={imgStyle} src="images/expression/27.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={28} style={imgStyle} src="images/expression/28.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={29} style={imgStyle} src="images/expression/29.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={30} style={imgStyle} src="images/expression/30.png"></img></td>
 					</tr>
 					<tr>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/31.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/32.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/33.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/34.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/35.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/36.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/37.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/38.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/39.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/40.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={31} style={imgStyle} src="images/expression/31.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={32} style={imgStyle} src="images/expression/32.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={33} style={imgStyle} src="images/expression/33.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={34} style={imgStyle} src="images/expression/34.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={35} style={imgStyle} src="images/expression/35.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={36} style={imgStyle} src="images/expression/36.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={37} style={imgStyle} src="images/expression/37.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={38} style={imgStyle} src="images/expression/38.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={39} style={imgStyle} src="images/expression/39.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={40} style={imgStyle} src="images/expression/40.png"></img></td>
 					</tr>
 					<tr>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/41.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/42.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/43.png"></img></td>
-						<td style={tdStyle} onClick={this.handleClick}><img style={imgStyle} src="images/expression/44.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={41} style={imgStyle} src="images/expression/41.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={42} style={imgStyle} src="images/expression/42.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={43} style={imgStyle} src="images/expression/43.png"></img></td>
+						<td style={tdStyle} onClick={this.handleClick}><img id={44} style={imgStyle} src="images/expression/44.png"></img></td>
 						<td style={tdStyle}></td>
 						<td style={tdStyle}></td>
 						<td style={tdStyle}></td>
@@ -220,7 +227,7 @@ var ExpressionSelectForm = React.createClass({
 });
 var ToolbarForm = React.createClass({
 	handleExpressionClick: function(event) {
-		PubSub.publishSync('expression-button-click', event);
+		PubSub.publishSync('expression-button-click', {});
 	},
 	render: function() {
 		var groupStyle = {
@@ -241,6 +248,39 @@ var ToolbarForm = React.createClass({
 	}
 });
 var InputForm = React.createClass({
+	insertAtCursor: function(myValue) {
+		var myField = document.getElementById(this.refs.textarea.props.id);
+		//IE support
+		if (document.selection) {
+			myField.focus();
+			sel = document.selection.createRange();
+			sel.text = myValue;
+			sel.select();
+		}
+		//MOZILLA/NETSCAPE support
+		else if (myField.selectionStart || myField.selectionStart == '0') {
+			var startPos = myField.selectionStart;
+			var endPos = myField.selectionEnd;
+			// save scrollTop before insert
+			var restoreTop = myField.scrollTop;
+			myField.value = myField.value.substring(0, startPos) + myValue + myField.value.substring(endPos, myField.value.length);
+			if (restoreTop > 0) {
+				// restore previous scrollTop
+				myField.scrollTop = restoreTop;
+			}
+			myField.focus();
+			myField.selectionStart = startPos + myValue.length;
+			myField.selectionEnd = startPos + myValue.length;
+		} else {
+			myField.value += myValue;
+			myField.focus();
+		}
+	},
+	componentDidMount: function() {
+		PubSub.subscribe('expression-click', function(event, data) {
+			this.insertAtCursor('#(' + data.id + ')');
+		}.bind(this));
+	},
 	render: function() {
 		var textareaContainerStyle = {
 			'width': this.props.width,
@@ -258,7 +298,7 @@ var InputForm = React.createClass({
 		};
 		return (
 			<div style={textareaContainerStyle}>
-				<textarea style={textareaStyle} placeholder="请输入消息"></textarea>
+				<textarea id="textarea" style={textareaStyle} placeholder="请输入消息" ref="textarea"></textarea>
 			</div>
 		);
 	}
@@ -314,12 +354,11 @@ var BodyForm = React.createClass({
 		};
 	},
 	componentDidMount: function() {
-		var elementReference = this;
 		var expressionButtonClickEvent = PubSub.subscribe('expression-button-click', function(event, data) {
-			elementReference.setState({
-				showExpressionForm: !elementReference.state.showExpressionForm,
+			this.setState({
+				showExpressionForm: !this.state.showExpressionForm,
 			});
-		});
+		}.bind(this));
 	},
 	componentWillUnmount: function() {
 		
