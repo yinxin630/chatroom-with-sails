@@ -36,6 +36,10 @@ var ButtonToolbar = AMUIReact.ButtonToolbar;
 var ButtonGroup = AMUIReact.ButtonGroup;
 var Button = AMUIReact.Button;
 
+window.onbeforeunload = function() {
+	io.socket.delete('/session');
+};
+
 var SystemMessage = React.createClass({
 	render: function() {
 		var messageContainerStyle = {
@@ -371,6 +375,18 @@ var InputForm = React.createClass({
 	}
 });
 var HeadForm = React.createClass({
+	getInitialState: function() {
+		return {
+			nickname: '',
+		};
+	},
+	componentDidMount: function() {
+		PubSub.subscribe('change-nickname', function(event, data) {
+			this.setState({
+				nickname: data.nickname,
+			});
+		}.bind(this));
+	},
 	handleSettingClick: function(event) {
 		var rect = event.target.getBoundingClientRect();
 		PubSub.publishSync('setting-button-click', {left: rect.right, top: rect.bottom});
@@ -390,22 +406,31 @@ var HeadForm = React.createClass({
 			'margin-left': 50,
 			'color': 'snow',
 		};
-		var userInfoStyle = {
-			'font-size': 16,
+		var rightContainerStyle = {
 			'margin-right': 50,
 			'float': 'right',
+			'padding-top': 15,
+		};
+		var userInfoStyle = {
+			'font-size': 16,
 			'color': 'snow',
 			'margin-top': 20,
+			'margin-right': 10,
 		};
-		
+		var settingButtonStyle = {
+			'width': 25,
+			'height': 25,
+		};
 		
 		return (
 			<div>
 				<div style={pcHeadStyle}>
 					<div style={pcHeadElementContainerStyle}>
 						<span style={productInfoStyle}>轻聊</span>
-						<span style={userInfoStyle} onClick={this.handleSettingClick}>设置</span>
-						<span style={userInfoStyle}>碎碎酱</span>
+						<div style={rightContainerStyle}>
+							<span style={userInfoStyle}>{this.state.nickname}</span>
+							<img src="images/setting.png" style={settingButtonStyle} onClick={this.handleSettingClick}></img>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -519,6 +544,12 @@ var MainForm = React.createClass({
 	
 	componentDidMount: function() {
 		window.addEventListener('resize', this.handleViewPortResize);
+		
+		io.socket.on('connect', function connectServer() {
+			io.socket.post('/session', { nickName: this.refs.nickname.props.value }, function (resData, jwres) {
+				PubSub.publishSync('change-nickname', {nickname: resData.nickName});
+			}.bind(this))
+		}.bind(this));
 	},
 	
 	componentWillUnmount: function() {
@@ -535,6 +566,7 @@ var MainForm = React.createClass({
 			<div style={mainFormStyle}>
 				<HeadForm width={this.state.viewport.width} height={headFormHeight}/>
 				<BodyForm width={this.state.viewport.width} height = {this.state.viewport.height - headFormHeight}/>
+				<input type="hidden" ref="nickname" value=""/>
 			</div>
 		);
 	}

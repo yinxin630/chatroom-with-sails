@@ -15,7 +15,7 @@ module.exports = {
             unique: true,
         },
         
-        socketId: {
+        sessionId: {
             type: 'string',
             required: true,
             unique: true,
