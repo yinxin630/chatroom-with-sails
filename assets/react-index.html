@@ -7,11 +7,11 @@
 	<meta name="keywords" content="">
 	<meta name="viewport"
 			content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-	<title>Amaze UI React</title>
+	<title>轻聊</title>
 	<meta name="renderer" content="webkit">
 	<!-- No Baidu Siteapp-->
 	<meta http-equiv="Cache-Control" content="no-siteapp"/>
-	<link rel="alternate icon" type="image/png" href="i/favicon.png">
+	<!-- <link rel="alternate icon" type="image/png" href="i/favicon.png"> -->
 	<link rel="apple-touch-icon-precomposed" href="i/app-icon72x72@2x.png">
 	<meta name="apple-mobile-web-app-title" content="AMUI React"/>
 	<meta name="apple-mobile-web-app-capable" content="yes">
@@ -111,6 +111,55 @@ var Message = React.createClass({
 	}
 });
 
+//设置项组件
+var SettingForm = React.createClass({
+	render: function() {
+		var settingContainerStyle = {
+			'background-color': 'rgba(102,102,102,0.8)',
+			'width': 250,
+    		'padding': 10,
+			'border-radius': 10,
+			'position': 'absolute',
+			'left': this.props.left - 250, //减去width
+			'top': this.props.top + 10,
+		};
+		if (this.props.show) {
+			settingContainerStyle['display'] = 'block';
+		}
+		else {
+			settingContainerStyle['display'] = 'none';
+		}
+		var labelStyle = {
+			'color': 'snow',
+		};
+		var inputTextStyle = {
+			'border-radius': 8,
+    		'height': 25,
+    		'padding': 0,
+    		'border-width': 0,
+		};
+		var buttonContainerStyle = {
+			'width': 158,
+    		'margin': '10px auto 5px auto',
+		};
+		var buttonStyle = {
+			'padding': '2px 10px',
+    		'border-width': 0,
+    		'border-radius': 8,
+			'margin-right': 20,
+		};
+		
+		return (
+			<div style={settingContainerStyle}>
+				<label style={labelStyle}>昵称：</label> <input style={inputTextStyle} type="text" maxLength="16"></input> <br/>
+				<div style={buttonContainerStyle}>
+					<button style={buttonStyle}>确 定</button> <button style={buttonStyle}>取 消</button>
+				</div>
+			</div>
+		);
+	}
+});
+
 //表情选择组件
 var ExpressionSelectForm = React.createClass({
 	getDefaultProps: function() {
@@ -133,7 +182,7 @@ var ExpressionSelectForm = React.createClass({
 		var expressionContainerStyle = {
 			'width': 511,
 			'height': 256,
-			'background-color': 'white',
+			'background-color': 'rgba(102,102,102,0.8)',
 			'position': 'absolute',
 			'left': this.props.left,
 			'bottom': this.props.bottom,
@@ -296,14 +345,36 @@ var InputForm = React.createClass({
 			'padding': 10,
 			'font-size': 14,
 		};
+		var buttonContainerStyle = {
+			'width': 250,
+			'position': 'relative',
+    		'left': this.props.width - 250, //减去width
+    		'bottom': 35,
+		};
+		var buttonStyle = {
+			'background-color': '#8a5555',
+    		'color': 'snow',
+    		'padding': '3px 10px',
+    		'border': 0,
+    		'border-radius': 5,
+			'margin-right': 10,
+		};
 		return (
 			<div style={textareaContainerStyle}>
 				<textarea id="textarea" style={textareaStyle} placeholder="请输入消息" ref="textarea"></textarea>
+				<div style={buttonContainerStyle}>
+					<button style={buttonStyle}>发送 Enter</button>
+					<button style={buttonStyle}>换行 Shift+Enter</button>
+				</div>
 			</div>
 		);
 	}
 });
 var HeadForm = React.createClass({
+	handleSettingClick: function(event) {
+		var rect = event.target.getBoundingClientRect();
+		PubSub.publishSync('setting-button-click', {left: rect.right, top: rect.bottom});
+	},
 	render: function() {
 		var pcHeadStyle = {
 			'height': this.props.height,
@@ -333,6 +404,7 @@ var HeadForm = React.createClass({
 				<div style={pcHeadStyle}>
 					<div style={pcHeadElementContainerStyle}>
 						<span style={productInfoStyle}>轻聊</span>
+						<span style={userInfoStyle} onClick={this.handleSettingClick}>设置</span>
 						<span style={userInfoStyle}>碎碎酱</span>
 					</div>
 				</div>
@@ -351,12 +423,21 @@ var BodyForm = React.createClass({
 	getInitialState: function() {
 		return {
 			showExpressionForm: false,
+			showSettingForm: false,
 		};
 	},
 	componentDidMount: function() {
 		var expressionButtonClickEvent = PubSub.subscribe('expression-button-click', function(event, data) {
 			this.setState({
 				showExpressionForm: !this.state.showExpressionForm,
+			});
+		}.bind(this));
+		
+		var settingButtonClickEvent = PubSub.subscribe('setting-button-click', function(event, data) {
+			this.setState({
+				showSettingForm: !this.state.showSettingForm,
+				settingFormLeft: data.left,
+				settingFormTop: data.top,
 			});
 		}.bind(this));
 	},
@@ -393,8 +474,6 @@ var BodyForm = React.createClass({
 					<div style={messageFormStyle}>
 						<Message avatar="images/head.png" nickname="碎碎酱" time="11:11:11" message="大家好，我是新人。" align="left" width={realMessageFormWidth}></Message>
 						<Message avatar="images/head.png" nickname="管理员" time="11:11:11" message="你好，欢迎你。" align="right" width={realMessageFormWidth}></Message>
-						<Message avatar="images/head.png" nickname="碎碎酱" time="11:11:11" message="你好，欢迎你。放假啊离开圣诞节发了卡是假的离开房间啊看来是大家发了卡就撒大连开发机上课了大家发了卡就撒大连开发机阿斯利康的积分" align="left" width={realMessageFormWidth}></Message>
-						<Message avatar="images/head.png" nickname="碎碎酱" time="11:11:11" message="咳咳。333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333" width={realMessageFormWidth}></Message>
 						<SystemMessage message="12:12:12 碎碎酱进入房间"></SystemMessage>
 						<Message avatar="images/head.png" nickname="碎碎酱" time="11:11:11" message="大家好，我是新人。" align="left" width={realMessageFormWidth}></Message>
 						<Message avatar="images/head.png" nickname="管理员" time="11:11:11" message="你好，欢迎你。" align="right" width={realMessageFormWidth}></Message>
@@ -406,6 +485,7 @@ var BodyForm = React.createClass({
 					</div>
 					<InputForm width={realMessageFormWidth} height={this.props.inputFormHeight}></InputForm>
 					<ExpressionSelectForm left={(this.props.width - realMessageFormWidth) / 2} bottom={this.props.toolbarFormHeight + this.props.inputFormHeight} show={this.state.showExpressionForm}></ExpressionSelectForm>
+					<SettingForm top={this.state.settingFormTop} left={this.state.settingFormLeft} show={this.state.showSettingForm}></SettingForm>
 				</div>
 			</div>
 		);
@@ -462,5 +542,6 @@ var MainForm = React.createClass({
 
 React.render(<MainForm />, document.getElementById('main'));
 </script>
+<script type="text/javascript" src="js/dependencies/sails.io.js"></script>
 </body>
 </html>
