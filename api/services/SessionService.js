@@ -22,6 +22,7 @@ module.exports = {
                 messages: messageCache,
             };
             sails.log('老用户加入 ', ' login:', user.login, ' socket', user.socket, ' ', options.session.id);
+            sails.log(options.session);
             sails.sockets.join(options.socket, ConstantUtil.DEFAULT_ROOM);
             return ResponseUtil.responseCreated(resData, res);
 		}
