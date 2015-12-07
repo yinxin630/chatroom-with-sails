@@ -45,3 +45,17 @@ io.socket.on('systemMessage', function (msgData) {
     });
     PubSub.publish('message', {messages: store.messages});
 });
+
+PubSub.subscribe('setting-ok-button-click', function changeNickname(event, data) {
+    io.socket.put('/user', { nickName: data.nickName }, function (resData, jwres) {
+        if (jwres.statusCode == 500) {
+            data.nickName += '_';
+            changeNickname(event, data);
+            return;
+        }
+        
+        store.nickName = resData.nickName;
+        PubSub.publish('change-nickname', {nickName: store.nickName});
+        PubSub.publish('close-setting-form', {});
+    });
+});

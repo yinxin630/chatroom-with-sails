@@ -32,6 +32,12 @@ window.BodyForm = React.createClass({
                 messages: data.messages,
             });
         }.bind(this));
+        
+        var closeSettingFormEvent = PubSub.subscribe('close-setting-form', function(event, data) {
+            this.setState({
+                showSettingForm: false,
+            });
+        }.bind(this));
 	},
 	componentWillUnmount: function() {
 		

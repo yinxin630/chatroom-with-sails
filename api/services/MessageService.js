@@ -16,7 +16,6 @@ module.exports = {
             nickName: options.nickName,
             time: new Date().toTimeString().slice(0, 8),
         }
-        sails.log.info('收到消息', messageData);
         sails.sockets.broadcast(ConstantUtil.DEFAULT_ROOM, 'message', messageData);
         messageCache.push(messageData);
         if (messageCache.length > 50) {
