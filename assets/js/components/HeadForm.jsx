@@ -1,7 +1,7 @@
 window.HeadForm = React.createClass({
 	getInitialState: function() {
 		return {
-			nickname: '',
+			nickname: '请更换一个萌萌哒的昵称',
 		};
 	},
 	componentDidMount: function() {
@@ -13,7 +13,7 @@ window.HeadForm = React.createClass({
 	},
 	handleSettingClick: function(event) {
 		var rect = event.target.getBoundingClientRect();
-		PubSub.publishSync('setting-button-click', {left: rect.right, top: rect.bottom});
+		PubSub.publish('setting-button-click', {left: rect.right, top: rect.bottom});
 	},
 	render: function() {
 		var pcHeadStyle = {

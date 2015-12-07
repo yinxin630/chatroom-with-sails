@@ -25,12 +25,6 @@ window.MainForm = React.createClass({
 	
 	componentDidMount: function() {
 		window.addEventListener('resize', this.handleViewPortResize);
-		
-		io.socket.on('connect', function connectServer() {
-			io.socket.post('/session', { nickName: this.refs.nickname.props.value }, function (resData, jwres) {
-				PubSub.publishSync('change-nickname', {nickname: resData.nickName});
-			}.bind(this))
-		}.bind(this));
 	},
 	
 	componentWillUnmount: function() {
@@ -47,7 +41,6 @@ window.MainForm = React.createClass({
 			<div style={mainFormStyle}>
 				<HeadForm width={this.state.viewport.width} height={headFormHeight}/>
 				<BodyForm width={this.state.viewport.width} height = {this.state.viewport.height - headFormHeight}/>
-				<input type="hidden" ref="nickname" value=""/>
 			</div>
 		);
 	}

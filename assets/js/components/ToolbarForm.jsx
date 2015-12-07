@@ -1,6 +1,6 @@
 window.ToolbarForm = React.createClass({
 	handleExpressionClick: function(event) {
-		PubSub.publishSync('expression-button-click', {});
+		PubSub.publish('expression-button-click', {});
 	},
 	render: function() {
 		var groupStyle = {
