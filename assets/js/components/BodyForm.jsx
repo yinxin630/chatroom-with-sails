@@ -1,4 +1,13 @@
 window.BodyForm = React.createClass({
+    getOuterHeight: function(element) {
+        if (element === undefined) {
+            return 0;
+        }
+        var marginTop = element.style.marginTop || '0px';
+        var marginBottom = element.style.marginBottom || '0px';
+        return element.offsetHeight + parseInt(marginTop.slice(0, marginTop.length - 2)) +
+            parseInt(marginBottom.slice(0, marginBottom.length - 2));
+    },
 	getDefaultProps: function() {
 		return {
 			toolbarFormHeight: 30,
@@ -38,10 +47,23 @@ window.BodyForm = React.createClass({
                 showSettingForm: false,
             });
         }.bind(this));
+        
+        var expressionClickEvent = PubSub.subscribe('expression-click', function(event, data) {
+			this.setState({
+                showExpressionForm: false,
+            });
+		}.bind(this));
 	},
 	componentWillUnmount: function() {
 		
 	},
+    componentDidUpdate: function() {
+        var messageContainerDiv = this.refs.messageForm.getDOMNode()
+        var maxLength = messageContainerDiv.scrollHeight - messageContainerDiv.clientHeight;
+        if (messageContainerDiv.scrollTop >= maxLength - this.getOuterHeight(messageContainerDiv.children[messageContainerDiv.children.length - 1])) {
+            messageContainerDiv.scrollTop = maxLength;
+        }
+    },
 	render: function() {
 		var bodyStyle = {
 			'width': this.props.width,
@@ -69,7 +91,7 @@ window.BodyForm = React.createClass({
 		return (
 			<div style={bodyStyle}>
 				<div style={chatFormStyle}>
-					<div style={messageFormStyle}>
+					<div style={messageFormStyle} ref="messageForm">
                         {
                             this.state.messages.map(function(message) {
                                 if (message.type === 'message') {
