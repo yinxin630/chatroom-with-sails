@@ -15,7 +15,7 @@ io.socket.on('connect', function connectServer() {
         var messagesTotal = resData.messagesTotal;
         var messages = resData.messages;
         for (var i = 0; i < messagesTotal; i++) {
-            messages.push({
+            store.messages.push({
                 type: 'message',
                 nickName: messages[i].nickName, 
                 time: messages[i].time, 
