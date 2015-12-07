@@ -68,7 +68,8 @@ window.BodyForm = React.createClass({
 		var bodyStyle = {
 			'width': this.props.width,
 			'height': this.props.height,
-			'background-image': 'url("images/react-background.png")',
+			'background-image': 'url("images/background-1.jpg")',
+            'background-size': this.props.width + 'px ' + this.props.height + 'px',
 		};
 		var chatFormStyle = {
 			'max-width': 1366 * 0.618,

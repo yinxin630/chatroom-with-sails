@@ -1,58 +1,41 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html charset=utf-8"/>
-<title>轻聊</title>
-<link rel="stylesheet" href="styles/style.css" type="text/css" />
+<head lang="zh-cn">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="viewport"
+			content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+	<title>轻聊</title>
+	<meta name="renderer" content="webkit">
+	<!-- No Baidu Siteapp-->
+	<meta http-equiv="Cache-Control" content="no-siteapp"/>
+	<!-- <link rel="alternate icon" type="image/png" href="i/favicon.png"> -->
+	<link rel="apple-touch-icon-precomposed" href="i/app-icon72x72@2x.png">
+	<meta name="apple-mobile-web-app-title" content="AMUI React"/>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="http://cdn.amazeui.org/amazeui/2.4.0/css/amazeui.min.css"/>
+	<script src="js/dependencies/react.min.js"></script>
+	<script src="js/dependencies/browser.min.js"></script>
+	<script src="http://cdn.amazeui.org/amazeui-react/1.0.0-beta1/amazeui.react.js"></script>
+	<script src="js/dependencies/pubsub.js"></script>	
 </head>
 <body>
-    <div class="header">
-        <div class="app-info">轻聊</div>
-        <div class="user-info">
-            <span class="nick-name" id="user-nickname"></span>
-            <div class="edit-image" id="edit-image">
-                <img src="images/edit.png" width="30px" height="30px">
-            </div>
-        </div>
-    </div>
-    
-    <div class="body">
-        <div class="chatform" id="chatform">
-            <div class="message-form" id="message-form">
-            </div>
-            <div class="input-form">
-                <div class="tool-button-form">
-                    <button id="expression-button" class="tool-button" style="background-image:url('images/expression/27.png')"></button>
-                </div>
-                <textarea class="input-area" id="message" placeholder="请输入消息" maxlength="4096"></textarea>
-                <span class="input-area-info">Enter发送 Shift+Enter换行</span>
-            </div>
-        </div>
-    </div>
-    
-    <div class="input-nickname">
-        <p class="prompt-info" style="color:snow">请输入昵称   ლ(^o^ლ)</p>
-        <div>
-            <input type="text" placeholder="昵称" id="input-nickname-textbox" maxlength="16">
-            <button id="input-nickname-button">确定</button>
-        </div>
-    </div>
-    
-    <div class="disconnect-info">
-        <span style="color:snow">您已经离线，请检查网络并等待重连</span>
-        <div id="disconnect-animation"></div>
-    </div>
-    
-    <div class="expression-select-form">
-        <table border="1" cellspacing="0" style="border-collapse:collapse;">
-        </table>
-    </div>
-    
-    <input type="hidden" id="nickName">
-    
-<script type="text/javascript" src="js/dependencies/jquery-2.1.4.min.js"></script>
+    <div id="main"></div>
+
+<script type="text/javascript" src="js/store.js"></script>
+<script type="text/babel" src="js/components/MainForm.jsx"></script>
+<script type="text/babel" src="js/components/HeadForm.jsx"></script>
+<script type="text/babel" src="js/components/BodyForm.jsx"></script>
+<script type="text/babel" src="js/components/InputForm.jsx"></script>
+<script type="text/babel" src="js/components/SettingForm.jsx"></script>
+<script type="text/babel" src="js/components/ExpressionSelectForm.jsx"></script>
+<script type="text/babel" src="js/components/ToolbarForm.jsx"></script>
+<script type="text/babel" src="js/components/Message.jsx"></script>
+<script type="text/babel" src="js/components/SystemMessage.jsx"></script>
+<script type="text/babel" src="js/app.jsx"></script>
 <script type="text/javascript" src="js/dependencies/sails.io.js"></script>
-<script type="text/javascript" src="js/dependencies/jquery.shCircleLoader-min.js"></script>
-<script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>
