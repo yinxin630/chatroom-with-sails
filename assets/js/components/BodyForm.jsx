@@ -9,6 +9,7 @@ window.BodyForm = React.createClass({
 		return {
 			showExpressionForm: false,
 			showSettingForm: false,
+            messages: [],
 		};
 	},
 	componentDidMount: function() {
@@ -25,6 +26,12 @@ window.BodyForm = React.createClass({
 				settingFormTop: data.top,
 			});
 		}.bind(this));
+        
+        var messageEvent = PubSub.subscribe('message', function(event, data) {
+            this.setState({
+                messages: data.messages,
+            });
+        }.bind(this));
 	},
 	componentWillUnmount: function() {
 		
@@ -57,19 +64,22 @@ window.BodyForm = React.createClass({
 			<div style={bodyStyle}>
 				<div style={chatFormStyle}>
 					<div style={messageFormStyle}>
-						<Message avatar="images/head.png" nickname="碎碎酱" time="11:11:11" message="大家好，我是新人。" align="left" width={realMessageFormWidth}></Message>
-						<Message avatar="images/head.png" nickname="管理员" time="11:11:11" message="你好，欢迎你。" align="right" width={realMessageFormWidth}></Message>
-						<SystemMessage message="12:12:12 碎碎酱进入房间"></SystemMessage>
-						<Message avatar="images/head.png" nickname="碎碎酱" time="11:11:11" message="大家好，我是新人。" align="left" width={realMessageFormWidth}></Message>
-						<Message avatar="images/head.png" nickname="管理员" time="11:11:11" message="你好，欢迎你。" align="right" width={realMessageFormWidth}></Message>
-						<Message avatar="images/head.png" nickname="碎碎酱" time="11:11:11" message="大家好，我是新人。" align="left" width={realMessageFormWidth}></Message>
-						<Message avatar="images/head.png" nickname="管理员" time="11:11:11" message="你好，欢迎你。" align="right" width={realMessageFormWidth}></Message>
+                        {
+                            this.state.messages.map(function(message) {
+                                if (message.type === 'message') {
+                                    return <Message avatar="images/head.png" nickname={message.nickName} time={message.time} message={message.msg} align={message.left ? 'left' : 'right'} width={realMessageFormWidth}/>
+                                }
+                                else if (message.type === 'system') {
+                                    return <SystemMessage message={message.msg}/>
+                                }
+                            })
+                        }
 					</div>
 					<div style={toolbarFormStyle}>
 						<ToolbarForm height={this.props.toolbarFormHeight}></ToolbarForm>
 					</div>
 					<InputForm width={realMessageFormWidth} height={this.props.inputFormHeight}></InputForm>
-					<ExpressionSelectForm left={(this.props.width - realMessageFormWidth) / 2} bottom={this.props.toolbarFormHeight + this.props.inputFormHeight} show={this.state.showExpressionForm}></ExpressionSelectForm>
+					<ExpressionSelectForm left={(this.props.width - realMessageFormWidth) / 2} bottom={this.props.toolbarFormHeight + this.props.inputFormHeight} show={this.state.showExpressionForm}/>
 					<SettingForm top={this.state.settingFormTop} left={this.state.settingFormLeft} show={this.state.showSettingForm}></SettingForm>
 				</div>
 			</div>

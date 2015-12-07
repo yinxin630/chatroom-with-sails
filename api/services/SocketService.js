@@ -19,6 +19,7 @@ module.exports = {
                 messagesTotal: messageCache.length,
                 messages: messageCache,
             };
+            sails.log('socket连入');
             sails.sockets.broadcast(ConstantUtil.DEFAULT_ROOM, 'systemMessage', { msg: new Date().toTimeString().slice(0, 8) + ' ' + options.nickName + ' 加入房间' });
             sails.sockets.join(options.socket, ConstantUtil.DEFAULT_ROOM);
             return ResponseUtil.responseCreated(resData, res);

@@ -126,6 +126,7 @@ module.exports.sockets = {
     afterDisconnect: function (session, socket, cb) {
         if (session.cookie) {
             SocketService.destroy(socket);
+            sails.log('socket 退出');
         }
         // sails.log('socket注销 ', session.id);
         //     sails.log(session);

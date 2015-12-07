@@ -27,6 +27,17 @@ window.InputForm = React.createClass({
 			myField.focus();
 		}
 	},
+    handleKeyDown: function(event) {
+        if (event.keyCode == 13 && !event.shiftKey) {
+            if (this.refs.textarea.getDOMNode().value == '') {
+                return false;
+            }
+            
+            io.socket.post('/message', { msg: this.refs.textarea.getDOMNode().value, nickName: store.nickName });
+            this.refs.textarea.getDOMNode().value = '';
+            return false;
+        }
+    },
 	componentDidMount: function() {
 		PubSub.subscribe('expression-click', function(event, data) {
 			this.insertAtCursor('#(' + data.id + ')');
@@ -63,7 +74,7 @@ window.InputForm = React.createClass({
 		};
 		return (
 			<div style={textareaContainerStyle}>
-				<textarea id="textarea" style={textareaStyle} placeholder="请输入消息" ref="textarea"></textarea>
+				<textarea id="textarea" style={textareaStyle} placeholder="请输入消息" ref="textarea" onKeyDown={this.handleKeyDown}></textarea>
 				<div style={buttonContainerStyle}>
 					<button style={buttonStyle}>发送 Enter</button>
 					<button style={buttonStyle}>换行 Shift+Enter</button>

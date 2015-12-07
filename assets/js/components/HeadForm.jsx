@@ -1,13 +1,13 @@
 window.HeadForm = React.createClass({
 	getInitialState: function() {
 		return {
-			nickname: '请更换一个萌萌哒的昵称',
+			nickName: '请更换一个萌萌哒的昵称',
 		};
 	},
 	componentDidMount: function() {
 		PubSub.subscribe('change-nickname', function(event, data) {
 			this.setState({
-				nickname: data.nickname,
+				nickName: data.nickName,
 			});
 		}.bind(this));
 	},
@@ -52,7 +52,7 @@ window.HeadForm = React.createClass({
 					<div style={pcHeadElementContainerStyle}>
 						<span style={productInfoStyle}>轻聊</span>
 						<div style={rightContainerStyle}>
-							<span style={userInfoStyle}>{this.state.nickname}</span>
+							<span style={userInfoStyle}>{this.state.nickName}</span>
 							<img src="images/setting.png" style={settingButtonStyle} onClick={this.handleSettingClick}></img>
 						</div>
 					</div>

@@ -1,6 +1,32 @@
 var Image = AMUIReact.Image;
 
 window.Message = React.createClass({
+    //消息过滤相关函数
+    filterBlankSymbol: function(msg) {
+        msg = msg.replace(/\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u0085\u2029)/g, '<br>');
+        msg = msg.replace(/  /g, '&nbsp');
+        msg = msg.replace(/\t/g, '&nbsp&nbsp');
+        return msg;
+    },
+
+    filterUrl: function(msg) {
+        var strRegex = /(https?:\/\/)([A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\'\" ])*)/g;
+        var re = new RegExp(strRegex);
+        msg = msg.replace(re, function (a, b, c) {
+            return '<a href="http://' + c + '" target="_blank">' + a + '</a>';
+        });
+        return msg;
+    },
+
+    filterExpression: function(msg) {
+        var strRegex = /#\([0-9]+?\)/g;
+        var re = new RegExp(strRegex);
+        msg = msg.replace(re, function (a, b, c) {
+            return '<img src="../images/expression/' + a.slice(2, a.length - 1) + '.png" style="width:30px;vertical-align: text-bottom;" onerror="this.style.display=\'none\'"></img>';
+        });
+        return msg;
+    },
+    
 	getDefaultProps: function() {
 		return {
 			align: 'left',
@@ -53,7 +79,7 @@ window.Message = React.createClass({
 					<span style={timeStyle}>{this.props.time}</span>
 				</div>
 				<div style={messageContentContainerStyle}>
-					<span>{this.props.message}</span>
+					<span dangerouslySetInnerHTML={{__html: this.filterExpression(this.filterUrl(this.filterBlankSymbol(this.props.message)))}}></span>
 				</div>
 			</div>
 		);
