@@ -29,6 +29,7 @@ window.SettingForm = React.createClass({
 		};
 		var inputTextStyle = {
 			'border-radius': 8,
+            'width': 170,
     		'height': 25,
     		'padding': 0,
     		'border-width': 0,

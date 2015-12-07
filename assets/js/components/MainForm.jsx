@@ -17,8 +17,8 @@ window.MainForm = React.createClass({
 	handleViewPortResize: function() {
 		this.setState({
 			viewport: {
-				width: window.innerWidth,
-				height: window.innerHeight
+				width: document.body.clientWidth,
+				height: document.body.clientHeight
 			}
 		});
 	},

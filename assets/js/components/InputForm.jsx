@@ -70,9 +70,9 @@ window.InputForm = React.createClass({
 		};
 		var buttonContainerStyle = {
 			'width': 250,
-			'position': 'relative',
-    		'left': this.props.width - 250 - 10, //减去width
-    		'bottom': 35,
+			'position': 'absolute',
+    		'right': this.props.rightmargin + 10,
+    		'bottom': 5,
 		};
 		var buttonStyle = {
 			'background-color': '#8a5555',

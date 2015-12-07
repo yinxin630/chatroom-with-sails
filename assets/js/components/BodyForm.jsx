@@ -106,7 +106,7 @@ window.BodyForm = React.createClass({
 					<div style={toolbarFormStyle}>
 						<ToolbarForm height={this.props.toolbarFormHeight}></ToolbarForm>
 					</div>
-					<InputForm width={realMessageFormWidth} height={this.props.inputFormHeight}></InputForm>
+					<InputForm width={realMessageFormWidth} height={this.props.inputFormHeight} rightmargin={(this.props.width - realMessageFormWidth) / 2}></InputForm>
 					<ExpressionSelectForm left={(this.props.width - realMessageFormWidth) / 2} bottom={this.props.toolbarFormHeight + this.props.inputFormHeight} show={this.state.showExpressionForm}/>
 					<SettingForm top={this.state.settingFormTop} left={this.state.settingFormLeft} show={this.state.showSettingForm}></SettingForm>
 				</div>
