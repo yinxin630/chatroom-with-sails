@@ -46,6 +46,21 @@ io.socket.on('systemMessage', function (msgData) {
     PubSub.publish('message', {messages: store.messages});
 });
 
+io.socket.on('user-list', function (msgData) {
+    var msg = '在线用户:\n';
+    msgData.users.map(function(user) {
+        msg += user + '\n';
+    });
+    store.messages.push({
+        type: 'message',
+        nickName: '系统消息',
+        msg: msg,
+        time: msgData.time,
+        left: true,
+    });
+    PubSub.publish('message', {messages: store.messages});
+});
+
 PubSub.subscribe('setting-ok-button-click', function changeNickname(event, data) {
     io.socket.put('/user', { nickName: data.nickName }, function (resData, jwres) {
         if (jwres.statusCode == 500) {

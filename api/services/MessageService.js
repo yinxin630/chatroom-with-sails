@@ -5,13 +5,16 @@ var SecurityUtil = require('../util/SecurityUtil');
 var messageCache = [];
 
 var commands = {
-    list: function () {
-        var users = User.find().then(function (userResults) {
-            return userResults;
+    list: function (socket, res) {
+        return users = User.find().then(function (userResults) {
+            var messageData = {
+                users: userResults.map(function (user) { return user.nickName; }),
+                time: new Date().toTimeString().slice(0, 8),
+            }
+            sails.log.info('send list');
+            sails.sockets.emit(sails.sockets.id(socket), 'user-list', messageData);
+            return null;
         });
-        return {
-            users: users,
-        };
     }
 };
 
@@ -22,16 +25,14 @@ module.exports = {
             return ResponseUtil.responseBadRequest(ConstantUtil.NOT_JOINED_ROOM, res);
         }
 
-        if (options.msg[0] === '/') {
+        if (options.msg.startsWith('/')) {
             var command = options.msg.slice(1, options.msg.length);
 
-            sails.log.info(command, commands.hasOwnProperty(command));
             if (commands.hasOwnProperty(command)) {
-                console.log(commands[command]());
-                //return ResponseUtil.responseOk(commands[command], res);
+                return commands[command](options.socket, res);
             }
         }
-        
+
         var messageData = {
             msg: SecurityUtil.xssFilter(options.msg),
             nickName: options.nickName,
