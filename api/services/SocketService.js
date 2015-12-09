@@ -7,7 +7,7 @@ module.exports = {
             options.nickName = '游客' + Math.round(Math.random() * 100000);
         }
 
-        User.create({ nickName: options.nickName, socketId: options.socket.id }).exec(function (err, userResult) {
+        User.create({ nickName: options.nickName.trim(), socketId: options.socket.id }).exec(function (err, userResult) {
             if (err) {
                 sails.log(err.toString());
                 return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);

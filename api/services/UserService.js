@@ -12,6 +12,7 @@ module.exports = {
                 return ResponseUtil.responseNotFound(ConstantUtil.USER_NOT_EXISTS, res);
             }
 
+            options.nickName = options.nickName.trim();
             if (options.nickName == '' || options.nickName == userResult.nickName) {
                 var resData = {
                     nickName: userResult.nickName,

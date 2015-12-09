@@ -17,7 +17,7 @@ var commands = {
     },
 
     nick: function (options, res) {
-        var nickName = options.msg.split(' ')[1];
+        var nickName = options.msg.split(' ')[1].trim();
         return User.findOne({ socketId: options.socket.id }).exec(function (err, userResult) {
             if (err) {
                 sails.log(err.toString());
