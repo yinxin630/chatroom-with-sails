@@ -61,6 +61,11 @@ io.socket.on('user-list', function (msgData) {
     PubSub.publish('message', {messages: store.messages});
 });
 
+io.socket.on('change-nick', function (resData) {
+    store.nickName = resData.nickName;
+    PubSub.publish('change-nickname', {nickName: store.nickName});
+});
+
 PubSub.subscribe('setting-ok-button-click', function changeNickname(event, data) {
     io.socket.put('/user', { nickName: data.nickName }, function (resData, jwres) {
         if (jwres.statusCode == 500) {

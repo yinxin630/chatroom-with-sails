@@ -5,17 +5,51 @@ var SecurityUtil = require('../util/SecurityUtil');
 var messageCache = [];
 
 var commands = {
-    list: function (socket, res) {
+    list: function (options, res) {
         return users = User.find().then(function (userResults) {
             var messageData = {
                 users: userResults.map(function (user) { return user.nickName; }),
                 time: new Date().toTimeString().slice(0, 8),
             }
-            sails.log.info('send list');
-            sails.sockets.emit(sails.sockets.id(socket), 'user-list', messageData);
+            sails.sockets.emit(sails.sockets.id(options.socket), 'user-list', messageData);
             return null;
         });
-    }
+    },
+
+    nick: function (options, res) {
+        var nickName = options.msg.split(' ')[1];
+        return User.findOne({ socketId: options.socket.id }).exec(function (err, userResult) {
+            if (err) {
+                sails.log(err.toString());
+                return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
+            }
+            else if (!userResult) {
+                return ResponseUtil.responseNotFound(ConstantUtil.USER_NOT_EXISTS, res);
+            }
+
+            if (nickName == '' || nickName == userResult.nickName) {
+                var resData = {
+                    nickName: userResult.nickName,
+                }
+                return ResponseUtil.responseOk(resData, res);
+            }
+
+            var oldNickName = userResult.nickName;
+            userResult.nickName = nickName;
+            return userResult.save(function (err, newUserResult) {
+                if (err) {
+                    sails.log(err);
+                    return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
+                }
+                var resData = {
+                    nickName: nickName,
+                }
+                sails.sockets.emit(sails.sockets.id(options.socket), 'change-nick', resData);
+                sails.sockets.broadcast(ConstantUtil.DEFAULT_ROOM, 'systemMessage', { msg: oldNickName + ' 改名为 ' + nickName });
+                return ResponseUtil.responseOk(resData, res);
+            });
+        });
+    },
 };
 
 module.exports = {
@@ -26,10 +60,10 @@ module.exports = {
         }
 
         if (options.msg.startsWith('/')) {
-            var command = options.msg.slice(1, options.msg.length);
+            var command = options.msg.slice(1, options.msg.length).split(' ')[0];
 
             if (commands.hasOwnProperty(command)) {
-                return commands[command](options.socket, res);
+                return commands[command](options, res);
             }
         }
 
