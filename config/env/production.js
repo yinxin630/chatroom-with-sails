@@ -26,6 +26,7 @@ module.exports = {
    ***************************************************************************/
 
   port: 10086,
+  
 
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *
@@ -34,5 +35,5 @@ module.exports = {
   // log: {
   //   level: "silent"
   // }
-
+  hookTimeout: 300000,
 };
