@@ -10,6 +10,7 @@ module.exports = {
         var options = {
             nickName: req.param('nickName', ''),
             socket: req.socket,
+            session: req.session,
         }
         SocketService.create(options, res);
     },

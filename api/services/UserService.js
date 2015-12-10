@@ -27,6 +27,8 @@ module.exports = {
                     sails.log(err);
                     return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
                 }
+                
+                options.session.nickName = options.nickName;
                 var resData = {
                     nickName: options.nickName,
                 }

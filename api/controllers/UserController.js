@@ -14,6 +14,7 @@ module.exports = {
         var options = {
             nickName: req.param('nickName', ''),
             socket: req.socket,
+            session: req.session,
         }
         UserService.update(options, res);
     },

@@ -14,6 +14,7 @@ module.exports = {
     create: function (req, res) {
         var options = {
             socket: req.socket,
+            session: req.session,
             msg: req.param('msg', ''),
             nickName: req.param('nickName', ''),
         }

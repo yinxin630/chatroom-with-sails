@@ -4,7 +4,7 @@ var ConstantUtil = require('../util/ConstantUtil');
 module.exports = {
     create: function (options, res) {
         if (options.nickName == '') {
-            options.nickName = '游客' + Math.round(Math.random() * 100000);
+            options.nickName = options.session.nickName || ('游客' + Math.round(Math.random() * 100000));
         }
 
         User.create({ nickName: options.nickName.trim(), socketId: options.socket.id }).exec(function (err, userResult) {
@@ -12,6 +12,8 @@ module.exports = {
                 sails.log(err.toString());
                 return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
             }
+            
+            options.session.nickName = userResult.nickName;
 
             var messageCache = MessageService.getMessageCache();
             var resData = {
