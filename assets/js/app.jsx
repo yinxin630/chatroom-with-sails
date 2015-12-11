@@ -23,7 +23,7 @@ io.socket.on('connect', function connectServer() {
                 left: messages[i].nickName !== store.nickName,
             });
         }
-        PubSub.publish('message', {messages: store.messages});
+        PubSub.publish('messages-update', {messages: store.messages});
     })
 });
 
@@ -35,7 +35,7 @@ io.socket.on('message', function (msgData) {
         time: msgData.time,
         left: msgData.nickName !== store.nickName,
     });
-    PubSub.publish('message', {messages: store.messages});
+    PubSub.publish('messages-update', {messages: store.messages});
 });
 
 io.socket.on('systemMessage', function (msgData) {
@@ -43,7 +43,7 @@ io.socket.on('systemMessage', function (msgData) {
         type: 'system',
         msg: handleMessageSymble(msgData.msg),
     });
-    PubSub.publish('message', {messages: store.messages});
+    PubSub.publish('messages-update', {messages: store.messages});
 });
 
 io.socket.on('user-list', function (msgData) {
@@ -58,7 +58,7 @@ io.socket.on('user-list', function (msgData) {
         time: msgData.time,
         left: true,
     });
-    PubSub.publish('message', {messages: store.messages});
+    PubSub.publish('messages-update', {messages: store.messages});
 });
 
 io.socket.on('change-nick', function (resData) {

@@ -18,7 +18,6 @@ window.BodyForm = React.createClass({
 		return {
 			showExpressionForm: false,
 			showSettingForm: false,
-            messages: [],
 		};
 	},
 	componentDidMount: function() {
@@ -35,12 +34,6 @@ window.BodyForm = React.createClass({
 				settingFormTop: data.top,
 			});
 		}.bind(this));
-        
-        var messageEvent = PubSub.subscribe('message', function(event, data) {
-            this.setState({
-                messages: data.messages,
-            });
-        }.bind(this));
         
         var closeSettingFormEvent = PubSub.subscribe('close-setting-form', function(event, data) {
             this.setState({
@@ -79,10 +72,6 @@ window.BodyForm = React.createClass({
 			'border-bottom-left-radius': 10,
     		'border-bottom-right-radius': 10,
 		};
-		var messageFormStyle = {
-			'height': this.props.height - this.props.toolbarFormHeight - this.props.inputFormHeight,
-			'overflow': 'auto',
-		};
 		var toolbarFormStyle = {
 			'height': this.props.toolbarFormHeight,
 			'background-color': 'rgba(153,153,153,0.5)',
@@ -92,18 +81,7 @@ window.BodyForm = React.createClass({
 		return (
 			<div style={bodyStyle}>
 				<div style={chatFormStyle}>
-					<div style={messageFormStyle} ref="messageForm">
-                        {
-                            this.state.messages.map(function(message) {
-                                if (message.type === 'message') {
-                                    return <Message avatar="images/head.png" nickname={message.nickName} time={message.time} message={message.msg} align={message.left ? 'left' : 'right'} maxWidth={realMessageFormWidth}/>
-                                }
-                                else if (message.type === 'system') {
-                                    return <SystemMessage message={message.msg}/>
-                                }
-                            })
-                        }
-					</div>
+					<MessageForm height={this.props.height - this.props.toolbarFormHeight - this.props.inputFormHeight} realWidth={realMessageFormWidth}/>
 					<div style={toolbarFormStyle}>
 						<ToolbarForm height={this.props.toolbarFormHeight}></ToolbarForm>
 					</div>
