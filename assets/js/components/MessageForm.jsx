@@ -14,6 +14,16 @@
  */
 
 window.MessageForm = React.createClass({
+    getOuterHeight: function(element) {
+        if (element === undefined) {
+            return 0;
+        }
+        var marginTop = element.style.marginTop || '0px';
+        var marginBottom = element.style.marginBottom || '0px';
+        return element.offsetHeight + parseInt(marginTop.slice(0, marginTop.length - 2)) +
+            parseInt(marginBottom.slice(0, marginBottom.length - 2));
+    },
+    
     getInitialState: function() {
 		return {
             messages: [],
@@ -27,9 +37,14 @@ window.MessageForm = React.createClass({
             });
         }.bind(this));
 	},
-	componentWillUnmount: function() {
-		
-	},
+    
+    componentDidUpdate: function() {
+        var messageContainerDiv = this.refs.messageForm.getDOMNode()
+        var maxLength = messageContainerDiv.scrollHeight - messageContainerDiv.clientHeight;
+        if (messageContainerDiv.scrollTop >= maxLength - this.getOuterHeight(messageContainerDiv.children[messageContainerDiv.children.length - 1])) {
+            messageContainerDiv.scrollTop = maxLength;
+        }
+    },
     
     render: function() {
         var messageFormStyle = {

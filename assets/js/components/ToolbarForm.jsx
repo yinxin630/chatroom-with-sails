@@ -1,3 +1,13 @@
+/**
+ * 工具栏组件
+ * props {
+ *     height: 组件高度,
+ * }
+ *
+ * 触发事件：
+ * expression-button-click: 选择表情按钮被点击
+ */
+ 
 window.ToolbarForm = React.createClass({
 	handleExpressionClick: function(event) {
 		PubSub.publish('expression-button-click', {});
@@ -5,6 +15,7 @@ window.ToolbarForm = React.createClass({
 	render: function() {
 		var groupStyle = {
 			'height': this.props.height,
+			'background-color': 'rgba(153,153,153,0.5)',
 		};
 		var buttonStyle = {
 			'width': this.props.height,

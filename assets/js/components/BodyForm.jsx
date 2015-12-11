@@ -1,13 +1,4 @@
 window.BodyForm = React.createClass({
-    getOuterHeight: function(element) {
-        if (element === undefined) {
-            return 0;
-        }
-        var marginTop = element.style.marginTop || '0px';
-        var marginBottom = element.style.marginBottom || '0px';
-        return element.offsetHeight + parseInt(marginTop.slice(0, marginTop.length - 2)) +
-            parseInt(marginBottom.slice(0, marginBottom.length - 2));
-    },
 	getDefaultProps: function() {
 		return {
 			toolbarFormHeight: 30,
@@ -50,13 +41,7 @@ window.BodyForm = React.createClass({
 	componentWillUnmount: function() {
 		
 	},
-    componentDidUpdate: function() {
-        var messageContainerDiv = this.refs.messageForm.getDOMNode()
-        var maxLength = messageContainerDiv.scrollHeight - messageContainerDiv.clientHeight;
-        if (messageContainerDiv.scrollTop >= maxLength - this.getOuterHeight(messageContainerDiv.children[messageContainerDiv.children.length - 1])) {
-            messageContainerDiv.scrollTop = maxLength;
-        }
-    },
+    
 	render: function() {
 		var bodyStyle = {
 			'width': this.props.width,
@@ -72,19 +57,14 @@ window.BodyForm = React.createClass({
 			'border-bottom-left-radius': 10,
     		'border-bottom-right-radius': 10,
 		};
-		var toolbarFormStyle = {
-			'height': this.props.toolbarFormHeight,
-			'background-color': 'rgba(153,153,153,0.5)',
-		};
+
 		var realMessageFormWidth = (this.props.width < chatFormStyle['max-width'] ? this.props.width : chatFormStyle['max-width']);
 		
 		return (
 			<div style={bodyStyle}>
 				<div style={chatFormStyle}>
 					<MessageForm height={this.props.height - this.props.toolbarFormHeight - this.props.inputFormHeight} realWidth={realMessageFormWidth}/>
-					<div style={toolbarFormStyle}>
-						<ToolbarForm height={this.props.toolbarFormHeight}></ToolbarForm>
-					</div>
+					<ToolbarForm height={this.props.toolbarFormHeight}/>
 					<InputForm width={realMessageFormWidth} height={this.props.inputFormHeight} rightmargin={(this.props.width - realMessageFormWidth) / 2}></InputForm>
 					<ExpressionSelectForm left={(this.props.width - realMessageFormWidth) / 2} bottom={this.props.toolbarFormHeight + this.props.inputFormHeight} show={this.state.showExpressionForm}/>
 					<SettingForm top={this.state.settingFormTop} left={this.state.settingFormLeft} show={this.state.showSettingForm}></SettingForm>
