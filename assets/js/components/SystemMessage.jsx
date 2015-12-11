@@ -1,3 +1,10 @@
+/**
+ * 系统消息展示组件
+ * props {
+ *     message: 消息内容,
+ * }
+ */
+
 window.SystemMessage = React.createClass({
 	render: function() {
 		var messageContainerStyle = {
