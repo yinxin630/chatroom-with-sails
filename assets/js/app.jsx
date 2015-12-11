@@ -19,7 +19,7 @@ io.socket.on('connect', function connectServer() {
                 type: 'message',
                 nickName: messages[i].nickName, 
                 time: messages[i].time, 
-                msg: messages[i].msg, 
+                msg: handleMessageSymble(messages[i].msg), 
                 left: messages[i].nickName !== store.nickName,
             });
         }
@@ -31,7 +31,7 @@ io.socket.on('message', function (msgData) {
     store.messages.push({
         type: 'message',
         nickName: msgData.nickName,
-        msg: msgData.msg,
+        msg: handleMessageSymble(msgData.msg),
         time: msgData.time,
         left: msgData.nickName !== store.nickName,
     });
@@ -41,7 +41,7 @@ io.socket.on('message', function (msgData) {
 io.socket.on('systemMessage', function (msgData) {
     store.messages.push({
         type: 'system',
-        msg: msgData.msg,
+        msg: handleMessageSymble(msgData.msg),
     });
     PubSub.publish('message', {messages: store.messages});
 });
@@ -54,7 +54,7 @@ io.socket.on('user-list', function (msgData) {
     store.messages.push({
         type: 'message',
         nickName: '系统消息',
-        msg: msg,
+        msg: handleMessageSymble(msg),
         time: msgData.time,
         left: true,
     });
@@ -79,3 +79,35 @@ PubSub.subscribe('setting-ok-button-click', function changeNickname(event, data)
         PubSub.publish('close-setting-form', {});
     });
 });
+
+// 消息过滤包装函数
+function handleMessageSymble(msg) {
+    return filterUrl(filterExpression(filterBlankSymbol(msg)));
+}
+// 空白符转义
+function filterBlankSymbol(msg) {
+    msg = msg.replace(/\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u0085\u2029)/g, '<br>');
+    msg = msg.replace(/  /g, '&nbsp');
+    msg = msg.replace(/\t/g, '&nbsp&nbsp');
+    return msg;
+}
+
+// URL转义
+function filterUrl(msg) {
+    var strRegex = /(https?:\/\/)([A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\'\" ])*)/g;
+    var re = new RegExp(strRegex);
+    msg = msg.replace(re, function (a, b, c) {
+        return '<a href="http://' + c + '" target="_blank">' + a + '</a>';
+    });
+    return msg;
+}
+
+// 表情转义
+function filterExpression(msg) {
+    var strRegex = /#\([0-9]+?\)/g;
+    var re = new RegExp(strRegex);
+    msg = msg.replace(re, function (a, b, c) {
+        return '<img src="../images/expression/' + a.slice(2, a.length - 1) + '.png" style="width:30px;vertical-align: text-bottom;" onerror="this.style.display=\'none\'"></img>';
+    });
+    return msg;
+}

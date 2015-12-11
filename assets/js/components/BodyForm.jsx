@@ -96,7 +96,7 @@ window.BodyForm = React.createClass({
                         {
                             this.state.messages.map(function(message) {
                                 if (message.type === 'message') {
-                                    return <Message avatar="images/head.png" nickname={message.nickName} time={message.time} message={message.msg} align={message.left ? 'left' : 'right'} width={realMessageFormWidth}/>
+                                    return <Message avatar="images/head.png" nickname={message.nickName} time={message.time} message={message.msg} align={message.left ? 'left' : 'right'} maxWidth={realMessageFormWidth}/>
                                 }
                                 else if (message.type === 'system') {
                                     return <SystemMessage message={message.msg}/>

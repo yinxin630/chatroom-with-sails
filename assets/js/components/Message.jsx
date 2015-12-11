@@ -1,32 +1,18 @@
+/**
+ * 聊天消息展示组件
+ * props {
+ *     align:['left'] 对齐方向,
+ *     maxWidth: 最大宽度,
+ *     avatar: 头像URL,
+ *     nickname: 昵称,
+ *     time: 时间,
+ *     message: 消息内容,
+ * }
+ */
+
 var Image = AMUIReact.Image;
 
 window.Message = React.createClass({
-    //消息过滤相关函数
-    filterBlankSymbol: function(msg) {
-        msg = msg.replace(/\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u0085\u2029)/g, '<br>');
-        msg = msg.replace(/  /g, '&nbsp');
-        msg = msg.replace(/\t/g, '&nbsp&nbsp');
-        return msg;
-    },
-
-    filterUrl: function(msg) {
-        var strRegex = /(https?:\/\/)([A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\'\" ])*)/g;
-        var re = new RegExp(strRegex);
-        msg = msg.replace(re, function (a, b, c) {
-            return '<a href="http://' + c + '" target="_blank">' + a + '</a>';
-        });
-        return msg;
-    },
-
-    filterExpression: function(msg) {
-        var strRegex = /#\([0-9]+?\)/g;
-        var re = new RegExp(strRegex);
-        msg = msg.replace(re, function (a, b, c) {
-            return '<img src="../images/expression/' + a.slice(2, a.length - 1) + '.png" style="width:30px;vertical-align: text-bottom;" onerror="this.style.display=\'none\'"></img>';
-        });
-        return msg;
-    },
-    
 	getDefaultProps: function() {
 		return {
 			align: 'left',
@@ -66,7 +52,7 @@ window.Message = React.createClass({
 			'border-radius': '10px',
 			'display': 'inline-block',
 			'float': this.props.align,
-			'max-width': this.props.width - (messageStyle['margin-left'] + avatarContainerStyle['margin'] * 2 + avatarStyle['width']) * 2,
+			'max-width': this.props.maxWidth - (messageStyle['margin-left'] + avatarContainerStyle['margin'] * 2 + avatarStyle['width']) * 2,
 		};
 		
 		return (
@@ -79,7 +65,7 @@ window.Message = React.createClass({
 					<span style={timeStyle}>{this.props.time}</span>
 				</div>
 				<div style={messageContentContainerStyle}>
-					<span dangerouslySetInnerHTML={{__html: this.filterExpression(this.filterUrl(this.filterBlankSymbol(this.props.message)))}}></span>
+					<span dangerouslySetInnerHTML={{__html: this.props.message}}></span>
 				</div>
 			</div>
 		);
