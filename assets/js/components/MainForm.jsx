@@ -1,3 +1,10 @@
+/**
+ * 页面主体容器组件
+ * state {
+ *     viewport: 页面大小(width,height),
+ * }
+ */
+
 window.MainForm = React.createClass({
 	getDefaultProps: function() {
 		return {
