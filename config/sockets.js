@@ -127,26 +127,7 @@ module.exports.sockets = {
         if (session.cookie) {
             SocketService.destroy(socket);
         }
-        // sails.log('socket注销 ', session.id);
-        //     sails.log(session);
-        // if (session.user) {
-        //     // var user = session.user;
-        //     // user.socket--;
-            
-            
-            
-        //     // if (user.socket == 0) {
-        //     //     if (user.login != 0) {
-        //     //         user.isDisConnect = true;
-                    
-        //     //         setTimeout(function () { 
-                        
-        //     //         }, 3000000);
-        //     //     }
-                
-                
-        //     // }
-        // }
+        
         return cb();
     },
     
