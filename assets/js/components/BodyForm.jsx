@@ -1,3 +1,26 @@
+/**
+ * 页面主体容器组件
+ * props {
+ *     toolbarFormHeight: 工具栏高度,
+ *     inputFormHeight: 输入框高度,
+ *     width: 宽度,
+ *     height: 高度,
+ *     settingFormLeft: 设置窗体位置(x),
+ *     settingFormTop: 设置窗体位置(y),
+ * }
+ *
+ * state {
+ *     showExpressionForm: 是否显示表情选择窗体,
+ *     showSettingForm: 是否显示设置窗体,
+ * }
+ *
+ * 监听事件：
+ * expression-button-click: 选择表情按钮被点击,
+ * setting-button-click: 设置按钮被点击,
+ * close-setting-form: 关闭设置按钮被点击,
+ * expression-click: 表情被点击,
+ */
+
 window.BodyForm = React.createClass({
 	getDefaultProps: function() {
 		return {
