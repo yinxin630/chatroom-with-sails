@@ -1,3 +1,23 @@
+/**
+ * 表情选择面板组件
+ * props {
+ *     show: 是否显示,
+ *     inputFormHeight: 输入框高度,
+ *     width: 宽度,
+ *     height: 高度,
+ *     settingFormLeft: 设置窗体位置(x),
+ *     settingFormTop: 设置窗体位置(y),
+ * }
+ *
+ * state {
+ *     showExpressionForm: 是否显示表情选择窗体,
+ *     showSettingForm: 是否显示设置窗体,
+ * }
+ *
+ * 触发事件：
+ * expression-click: 表情被点击,
+ */
+ 
 //表情选择组件
 window.ExpressionSelectForm = React.createClass({
 	getDefaultProps: function() {
