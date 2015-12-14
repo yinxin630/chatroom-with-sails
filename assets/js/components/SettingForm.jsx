@@ -1,13 +1,25 @@
-//设置项组件
+/**
+ * 页面主体容器组件
+ * props {
+ *     show: 是否显示,
+ * }
+ *
+ * 触发事件：
+ * setting-ok-button-click: 设置窗体确定按钮被点击,
+ * close-setting-form: 设置窗体关闭按钮被点击,
+ */
+ 
 window.SettingForm = React.createClass({
     handleOkButton: function(event) {
         PubSub.publish('setting-ok-button-click', {nickName: this.refs.nickname.getDOMNode().value});
         this.refs.nickname.getDOMNode().value = '';
     },
+    
     handleCancelButton: function(event) {
         PubSub.publish('close-setting-form', {});
         this.refs.nickname.getDOMNode().value = '';
     },
+    
 	render: function() {
 		var settingContainerStyle = {
 			'background-color': 'rgba(102,102,102,0.8)',
