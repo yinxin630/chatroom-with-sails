@@ -1,9 +1,24 @@
+/**
+ * 页面头部组件
+ * props {
+ *     height: 高度,
+ * }
+ *
+ * state {
+ *     nickName: 昵称,
+ * }
+ *
+ * 触发事件：
+ * setting-button-click: 设置按钮被点击,
+ */
+
 window.HeadForm = React.createClass({
 	getInitialState: function() {
 		return {
 			nickName: '请更换一个萌萌哒的昵称',
 		};
 	},
+    
 	componentDidMount: function() {
 		PubSub.subscribe('change-nickname', function(event, data) {
 			this.setState({
@@ -11,10 +26,12 @@ window.HeadForm = React.createClass({
 			});
 		}.bind(this));
 	},
+    
 	handleSettingClick: function(event) {
 		var rect = event.target.getBoundingClientRect();
 		PubSub.publish('setting-button-click', {left: rect.right, top: rect.bottom});
 	},
+    
 	render: function() {
 		var pcHeadStyle = {
 			'height': this.props.height,
