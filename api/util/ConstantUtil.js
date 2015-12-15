@@ -6,10 +6,12 @@ module.exports = {
 	GET_SESSION_SUCCESS: 'Get session success.',
 	USER_NOT_EXISTS: 'User not exists.',
 	USE_SOCKET: 'Please use the socket to access this interface.',
-	NICK_MODIFIED_SUCCESS: 'Nick has been modified.',
+    NICK_MODIFIED_SUCCESS: 'Nick has been modified.',
+    NICK_ALREADY_EXISTS: 'Nickname had already exists.',
 	NOT_JOINED_ROOM: 'You have not joined the room.',
 	SEND_MESSAGE_SUCCESS: 'Send message success.',
-	JOIN_ROOM_SUCCESS: 'Join room success.',
+    JOIN_ROOM_SUCCESS: 'Join room success.',
+    GET_USER_LIST_SUCCESS: 'Get user list success.',
 	
     //
     DEFAULT_ROOM: 'default',

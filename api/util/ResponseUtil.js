@@ -11,7 +11,8 @@
 
 module.exports = {
     responseOk: function (data, res) {
-        return res.ok(data);
+        res.status(200);
+        return res.json(data);
     },
 
     responseCreated: function (data, res) {
@@ -25,18 +26,22 @@ module.exports = {
     },
 
     responseBadRequest: function (msg, res) {
-        return res.badRequest({ msg: msg });
+        res.status(400);
+        return res.json({ msg: msg });
     },
 
     responseForbidden: function (msg, res) {
-        return res.forbidden({ msg: msg });
+        res.status(403);
+        return res.json({ msg: msg });
     },
 
     responseNotFound: function (msg, res) {
-        return res.notFound({ msg: msg });
+        res.status(404);
+        return res.json({ msg: msg });
     },
 
     responseServerError: function (msg, res) {
-        return res.serverError({ msg: msg });
+        res.status(500);
+        return res.json({ msg: msg });
     },
 }

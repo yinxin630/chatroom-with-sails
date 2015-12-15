@@ -12,44 +12,35 @@ var commands = {
                 time: new Date().toTimeString().slice(0, 8),
             }
             sails.sockets.emit(sails.sockets.id(options.socket), 'user-list', messageData);
-            return null;
+            return ResponseUtil.responseOk(ConstantUtil.GET_USER_LIST_SUCCESS, res);
         });
     },
 
     nick: function (options, res) {
         var nickName = options.msg.split(' ')[1].trim() || '';
         return User.findOne({ socketId: options.socket.id }).exec(function (err, userResult) {
-            if (err) {
-                sails.log(err.toString());
-                return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
-            }
-            else if (!userResult) {
-                return ResponseUtil.responseNotFound(ConstantUtil.USER_NOT_EXISTS, res);
+            if (!userResult) {
+                throw new Error('can not find user by socket ID');
             }
 
-            if (nickName == '' || nickName == userResult.nickName) {
-                var resData = {
-                    nickName: userResult.nickName,
-                }
-                return ResponseUtil.responseOk(resData, res);
-            }
-
-            var oldNickName = userResult.nickName;
-            userResult.nickName = nickName;
-            return userResult.save(function (err, newUserResult) {
-                if (err) {
-                    sails.log(err);
-                    return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
-                }
-                
-                options.session.nickName = nickName;
+            return UserService.changeNickname(userResult, nickName, function (oldNickName) {
                 var resData = {
                     nickName: nickName,
-                }
+                };
+
                 sails.sockets.emit(sails.sockets.id(options.socket), 'change-nick', resData);
                 sails.sockets.broadcast(ConstantUtil.DEFAULT_ROOM, 'systemMessage', { msg: oldNickName + ' 改名为 ' + nickName });
                 return ResponseUtil.responseOk(resData, res);
             });
+        }).then(function (err) {
+            sails.log.error('On message command nick interface, catch:\n', err);
+            if (err.message === 'can not find user by socket ID') {
+                return ResponseUtil.responseBadRequest(ConstantUtil.USE_SOCKET, res);
+            }
+            else if (err.message.indexOf('A record with that `nickName` already exists') >= 0) {
+                return ResponseUtil.responseBadRequest(ConstantUtil.NICK_ALREADY_EXISTS, res);
+            }
+            return ResponseUtil.responseServerError(ConstantUtil.SERVER_ERROR, res);
         });
     },
 };

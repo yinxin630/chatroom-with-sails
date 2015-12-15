@@ -2,8 +2,9 @@ React.render(<MainForm />, document.getElementById('main'));
 
 io.socket.on('connect', function connectServer() {
     io.socket.post('/socket', { nickName: store.nickName }, function (resData, jwres) {
-        if (jwres.statusCode == 500) {
+        if (jwres.statusCode == 400) {
             store.nickName += '_';
+            console.log(resData);
             connectServer();
             return;
         }
@@ -68,7 +69,7 @@ io.socket.on('change-nick', function (resData) {
 
 PubSub.subscribe('setting-ok-button-click', function changeNickname(event, data) {
     io.socket.put('/user', { nickName: data.nickName }, function (resData, jwres) {
-        if (jwres.statusCode == 500) {
+        if (jwres.statusCode == 400) {
             data.nickName += '_';
             changeNickname(event, data);
             return;
